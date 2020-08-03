@@ -1,13 +1,11 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure4fh()
+function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure5f()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 4;
-fgNo = 603;
-panel = 'FH';
-panel1 = 'F';
-panel2 = 'H';
+figureNo = 5;
+fgNo = 627;
+panel = 'F';
 control = 'Closed';
 gThreshold = -0.4515;
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
@@ -35,14 +33,17 @@ supraMIneg = supraMI(supraMI <= 0);
 [ sBasicStatsSupraMI, sStatsTestSupraMI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
 clear supraMIpos supraMIneg
 
-%% Figure preparation of MI with curve fitting of two Gaussian components
-threshold = gThreshold;
+%% Figure preparation of histgram with a threshold line without any fitting 
+% Parameters
+condition = [1]; % 0 for sub, 1 for supra
 outputGraph = [1 1]; % pdf, png
-colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 0; 0 0 1]; % [R G B]
+colorMat = [0.75 0.75 0.75; 0 0 0]; % [R G B]
+
+threshold = gThreshold;
 
 % supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel1 '_Supra' control 'Loop_MIDistWithFit'];
-[ flag ] = figsf_HistogramWTwoGaussians2( supraMI, threshold, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
+outputFileNameBase = ['Figure' num2str(figureNo) panel '_Supra' control 'Loop_MIDistWithFit'];
+[ flag ] = figsf_HistogramWThreshold1( supraMI, threshold, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
 clear flag; close all
@@ -84,22 +85,6 @@ chi2 = struct(...
 
 percThrshlded = n./N;
 
-%% Figure prepration for fraction of conditioned trials (Supra)
-% parameters
-unqcond = unique(supraTbTh.(12));
-CTitle = {'Fraction of success trial pairs'};
-CVLabel = {'Fraction'};
-outputGraph = [1 1]; % pdf, png
-
-colorMat = [0 0 1]; % RGB
-CHLabel = 'MS illumination delay (ms)';
-    
-outputFileNameBase = ['Figure' num2str(figureNo) panel2 '_Supra' control 'Loop_PercThrshlded'];
-[ flag ] = figsf_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
-movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
-movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
-clear flag; close all
-
 %% Number of rats and trials
 No.supraRats = length(unique(supraTb.LTR));
 No.supraTrials = length(supraTb.LTR);
@@ -107,4 +92,4 @@ No.supraTrials = length(supraTb.LTR);
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
 save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
-end 
+end

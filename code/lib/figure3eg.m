@@ -10,11 +10,12 @@ panel1 = 'E';
 panel2 = 'G';
 control = 'Closed';
 gThreshold = -0.4515;
-inputFileName = ['../data/Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['../results/Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
+outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+
 
 %% Data import
-orgTb = readtable(inputFileName); % original csv data
+orgTb = readtable(['../data/' inputFileName]); % original csv data
 supraTb = orgTb(logical(orgTb.Supra),:); % 
 VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
 
@@ -105,5 +106,6 @@ No.supraRats = length(unique(supraTb.LTR));
 No.supraTrials = length(supraTb.LTR);
 
 %% Save
-save(outputFileName, 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
+save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
 end 
