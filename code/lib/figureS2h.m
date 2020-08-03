@@ -35,7 +35,7 @@ CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Du
 outputGraph = [1 1]; % pdf, png
 
 % supra
-outputFileNameBase = ['Figure' supplement num2str(figureNo) '_Supra' control 'Loop_2ANOVA_']; 
+outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_2ANOVA_']; 
 [ flag ] = figsf_2ANOVAOpt1( sBasicStatsSupra, dataVarNames, condVec, 0, CTitle, CVLabel, outputGraph, outputFileNameBase);
 for i = 1:length(dataVarNames)
     movefile([outputFileNameBase dataVarNames{i} '.pdf'], ['../results/' outputFileNameBase dataVarNames{i} '.pdf'])

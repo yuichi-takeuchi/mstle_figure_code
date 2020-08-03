@@ -1,4 +1,4 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figureS2g()
+function [sBasicStatsSupra, sStatsTestSupra, No] = figureS4e()
 % Open or closed-loop septum optogenetic stimulation for kindling-induced 
 % evoked temporal lobe seizures
 % This script conducts statistical analyses and bar graph outputs of
@@ -7,9 +7,9 @@ function [sBasicStatsSupra, sStatsTestSupra, No] = figureS2g()
 
 %% params
 supplement = 'S';
-figureNo = 2;
-fgNo = 624;
-panel = 'G';
+figureNo = 4;
+fgNo = 603;
+panel = 'E';
 control = 'Open';
 graphSuffix = 'Hz';
 inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
@@ -47,4 +47,3 @@ No.supraTrials = length(supraTb.LTR);
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
 
 end
-
