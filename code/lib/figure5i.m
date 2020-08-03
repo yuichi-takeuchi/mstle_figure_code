@@ -7,8 +7,7 @@ figureNo = 5;
 fgNo = 627;
 panel = 'I';
 control = 'Closed';
-inputFileName = ['../data/Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['../results/Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
 
 %% Data import
 load('tmp/Figure3EG_ClosedLoopStim_MIDist.mat', 'percThrshlded');
@@ -72,6 +71,6 @@ movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
 close all
 
 %% Save
-save(outputFileName, 'percTh_Estim', 'percTh_VGATChR2', 'percTh_CamkiiaChR2', 'percTh_Sum', '-v7.3')
-end
+save(['../results/' outputFileName], 'percTh_Estim', 'percTh_VGATChR2', 'percTh_CamkiiaChR2', 'percTh_Sum', '-v7.3')
 
+end

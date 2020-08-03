@@ -11,11 +11,11 @@ figureNo = 5;
 fgNo = 627;
 panel = 'H';
 control = 'Closed';
-inputFileName = ['../data/Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['../results/Figure' num2str(figureNo) panel '_' control 'LoopStim_3ANOVA.mat'];
+inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
+outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_3ANOVA.mat'];
 
 %% Data import 1
-orgTb = readtable(inputFileName); % original csv data
+orgTb = readtable(['../data/' inputFileName]); % original csv data
 supraTb = orgTb(logical(orgTb.Supra),:); % 
 dataVarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
 OnOffVarName = orgTb.Properties.VariableNames{10};
@@ -56,6 +56,6 @@ No.supraRats = length(unique(supraTb.LTR));
 No.supraTrials = length(supraTb.LTR);
 
 %% Save
-save(outputFileName, 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
 
 end
