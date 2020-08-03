@@ -1,16 +1,18 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure4fh()
+function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figureS3df()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 4;
-fgNo = 603;
-panel1 = 'F';
-panel2 = 'H';
+supplement = 'S';
+figureNo = 3;
+fgNo = 624;
+panel1 = 'D';
+panel2 = 'F';
 control = 'Closed';
 gThreshold = -0.4515;
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
+outputFileName = ['Figure' supplement num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
+
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -40,7 +42,7 @@ outputGraph = [1 1]; % pdf, png
 colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 0; 0 0 1]; % [R G B]
 
 % supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel1 '_Supra' control 'Loop_MIDistWithFit'];
+outputFileNameBase = ['Figure' supplement num2str(figureNo) panel1 '_Supra' control 'Loop_MIDistWithFit'];
 [ flag ] = figsf_HistogramWTwoGaussians2( supraMI, threshold, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
@@ -49,7 +51,6 @@ clear flag; close all
 %% Separation of data by the global threshold of MI (output is ~supraTbTh or ~subTbTh.csv file)
 % parameters
 threshold = gThreshold;
-direction = [0]; % 0 for lower, 1 for upper
 
 % CSV file output
 tempMI = supraMI;
@@ -61,9 +62,10 @@ indThrshld = interleave(indThrshld, indThrshld);
 tempTb = table(indMI, indThrshld, 'VariableNames',{'MI','Thresholded'});
 
 supraTbTh = [supraTb, tempTb];
-writetable(supraTbTh, ['tmp/Figure' num2str(figureNo) '_supraTbTh.csv'])
+writetable(supraTbTh, ['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv'])
 
 %% Proportion of thresholded (labeled) conditions
+
 tempTbTh = supraTbTh;
 condVec = tempTbTh.(12);
 unqcond = unique(condVec);
@@ -92,12 +94,12 @@ outputGraph = [1 1]; % pdf, png
 
 colorMat = [0 0 1]; % RGB
 CHLabel = 'MS illumination delay (ms)';
-    
-outputFileNameBase = ['Figure' num2str(figureNo) panel2 '_Supra' control 'Loop_PercThrshlded'];
+
+outputFileNameBase = ['Figure' supplement num2str(figureNo) panel2 '_Supra' control 'Loop_PercThrshlded'];
 [ flag ] = figsf_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
-clear flag; close all
+close all
 
 %% Number of rats and trials
 No.supraRats = length(unique(supraTb.LTR));
@@ -106,4 +108,5 @@ No.supraTrials = length(supraTb.LTR);
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
 save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+
 end 

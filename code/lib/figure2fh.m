@@ -5,13 +5,12 @@ function [sBasicStatsSub, sStatsTestSub, sBasicStatsSubMI, sStatsTestSubMI, chi2
 %% params
 figureNo = 2;
 fgNo = 641;
-panel = 'EH';
 panel1 = 'E';
 panel2 = 'H';
 control = 'Open';
 gThreshold = 0.4515;
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data

@@ -5,13 +5,12 @@ function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupra
 %% params
 figureNo = 3;
 fgNo = 641;
-panel = 'EG';
 panel1 = 'E';
 panel2 = 'G';
 control = 'Closed';
 gThreshold = -0.4515;
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
 
 
 %% Data import
@@ -51,7 +50,6 @@ clear flag; close all
 %% Separation of data by the global threshold of MI (output is ~supraTbTh or ~subTbTh.csv file)
 % parameters
 threshold = gThreshold;
-direction = [0]; % 0 for lower, 1 for upper
 
 % CSV file output
 tempMI = supraMI;
@@ -99,7 +97,7 @@ outputFileNameBase = ['Figure' num2str(figureNo) panel2 '_Supra' control 'Loop_P
 [ flag ] = figsf_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
-clear flag; close all
+close all
 
 %% Number of rats and trials
 No.supraRats = length(unique(supraTb.LTR));
@@ -108,4 +106,5 @@ No.supraTrials = length(supraTb.LTR);
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
 save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+
 end 
