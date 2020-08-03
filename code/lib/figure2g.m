@@ -3,7 +3,7 @@ function [sBasicStatsSub, sStatsTestSub, No] = figure2g()
 % evoked temporal lobe seizures
 % This script conducts statistical analyses and bar graph outputs of
 % summarized data in csv (control vs. treatment)
-% Copyright(c) Yuichi Takeuchi 2018, 2019, 2020
+% Copyright(c) 2018, 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 2;

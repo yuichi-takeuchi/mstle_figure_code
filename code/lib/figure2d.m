@@ -1,7 +1,7 @@
 function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, No] = figure2d()
 %
 % Calcurates and clusters modulation index of HPC electrographic seizures.
-% Copyright (c) Yuichi Takeuchi 2019, 2020
+% Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 2;

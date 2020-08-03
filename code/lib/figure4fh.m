@@ -1,13 +1,13 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure3eg()
+function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure4fh()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 3;
-fgNo = 641;
-panel = 'EG';
-panel1 = 'E';
-panel2 = 'G';
+figureNo = 4;
+fgNo = 603;
+panel = 'FH';
+panel1 = 'F';
+panel2 = 'H';
 control = 'Closed';
 gThreshold = -0.4515;
 inputFileName = ['../data/Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
@@ -38,7 +38,7 @@ clear supraMIpos supraMIneg
 %% Figure preparation of MI with curve fitting of two Gaussian components
 threshold = gThreshold;
 outputGraph = [1 1]; % pdf, png
-colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 1; 0 0 0]; % [R G B]
+colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 0; 0 0 1]; % [R G B]
 
 % supra
 outputFileNameBase = ['Figure' num2str(figureNo) panel1 '_Supra' control 'Loop_MIDistWithFit'];
@@ -87,13 +87,13 @@ percThrshlded = n./N;
 %% Figure prepration for fraction of conditioned trials (Supra)
 % parameters
 unqcond = unique(supraTbTh.(12));
-CTitle = 'Fraction of success trial pairs';
-CVLabel = 'Fraction';
+CTitle = {'Fraction of success trial pairs'};
+CVLabel = {'Fraction'};
 outputGraph = [1 1]; % pdf, png
 
-colorMat = [0 0 0];
-CHLabel = 'MS stimulation delay (ms)';
-
+colorMat = [0 0 1]; % RGB
+CHLabel = 'MS illumination delay (ms)';
+    
 outputFileNameBase = ['Figure' num2str(figureNo) panel2 '_Supra' control 'Loop_PercThrshlded'];
 [ flag ] = figsf_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])

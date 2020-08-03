@@ -4,7 +4,7 @@ function [sBasicStatsSupra, sStatsTestSupra, No] = figure3h()
 % This script conducts three-way ANOVA statistical analyses and graph outputs of
 % summarized data in csv (control vs. treatment with conditioning, like
 % delay or stimulus Hz)
-% Copyright(c) Yuichi Takeuchi 2019, 2020
+% Copyright(c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 3;
