@@ -21,8 +21,8 @@ The codes have been tested with MATLAB ver 9.5 (R2018b) with the following toolb
 2. Clone [MatlabUtils](https://github.com/yuichi-takeuchi/MatlabUtils) in the \code\lib directory as a submodule.
 
 ### How to use
-1. Locate main functions for respective figures in the \code directory.
-2. Each figure panel will appear in the \result directory.
+1. Launch main functions for respective figures in the \code directory.
+2. Each figure panel will appear in the \results directory.
 
 ## Versioning
 We use [SemVer](http://semver.org/) for versioning.
