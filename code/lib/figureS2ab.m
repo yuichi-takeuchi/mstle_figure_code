@@ -1,22 +1,18 @@
+function [No] = figureS2ab()
 % Development of hippocampal kindling, evaluated with Racine's scale and
 % wet-dog shakes
-% Copyright (c) Yuichi Takeuchi 2018, 2019
-clc; clear; close all
-%% Organizing MetaInfo
-MetaInfo = struct(...
-    'MatlabFolder', 'C:\Users\Lenovo\Documents\MATLAB',...
-    'DataFolder', 'C:\Users\Lenovo\Dropbox\Scrivener\MSTLE\Dataset\Dataset1\Analysis',...
-    'FileName', 'Dataset1_Fg632_RSEvolution.csv'...
-    );
+% Copyright (c) 2018–2020 Yuichi Takeuchi
 
-%% Move to Matlabfolder
-cd(MetaInfo.MatlabFolder)
-
-%% Move to data folder
-cd(MetaInfo.DataFolder)
+%% params
+supplement = 'S';
+figureNo = 2;
+fgNo = 632;
+panel = 'AB';
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_RSDevelop.csv'];
+outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_RSDevelop'];
 
 %% Data import
-srcTb = readtable(MetaInfo.FileName);
+srcTb = readtable(['../data/' inputFileName]);
 extTb = srcTb(:,(1:7));
 VarNames = extTb.Properties.VariableNames; % {x__LTR, Date, ExpNo1, ExpNo2, Num, RS, WDS}
 
@@ -24,19 +20,6 @@ VarNames = extTb.Properties.VariableNames; % {x__LTR, Date, ExpNo1, ExpNo2, Num,
 Number = extTb.Num;
 RScale = extTb.RS;
 WDS = extTb.WDS;
-
-%% Plot for raw view
-% figure(1)
-% subplot(1,2,1)
-% plot(Number, RScale, 'ko')
-% title('Racine scale');
-% xlabel('Number of stimulation')
-% ylabel('Racine scale')
-% subplot(1,2,2)
-% plot(Number, WDS, 'ko')
-% title('Wet-dog shaking')
-% xlabel('Number of Stimulation')
-% ylabel('# Wet-dog shaking')
 
 %% Descriptive parameters for plotting
 uniqueNum = unique(extTb.(VarNames{5}));
@@ -105,18 +88,16 @@ set(haxes2,...
     'FontSize', fontsize...
     );
 
-%     'XLim', [0.5 2.5],...
-%     'XTick', [1 2],...
-%     'XTickLabel', {'Off', 'On'},...
-
 % outputs
-print('Dataset1_Fg632.pdf', '-dpdf');
-print('Dataset1_Fg632.png', '-dpng');
+print(['../results/' outputFileNameBase '.pdf'], '-dpdf');
+print(['../results/' outputFileNameBase '.png'], '-dpng');
 
-clear hfig haxes1 haxes2 fontname fontsize
+close all
 
 %% Number of rats
-ratNum = length(unique(srcTb.LTR))
+No = length(unique(srcTb.LTR));
 
 %% Save
-save('RacineWDS')
+save(['../results/' outputFileNameBase '.mat'])
+
+end
