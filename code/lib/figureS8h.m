@@ -1,14 +1,14 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figureS2h()
+function [sBasicStatsSupra, sStatsTestSupra, No] = figureS8h()
 % Open or closed-loop septum optogenetic stimulation for kindling-induced 
 % evoked temporal lobe seizures
 % This script conducts two-way ANOVA statistical analyses and graph outputs of
 % summarized data in csv (control vs. treatment with conditioning, like
 % daly, stimulus Hz etc.
-% Copyright (c) 2018, 2019, 2020 Yuichi Takeuchi
+% Copyright (c) 2018–2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 2;
+figureNo = 8;
 fgNo = 624;
 panel = 'H';
 control = 'Open';
