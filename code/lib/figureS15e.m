@@ -1,18 +1,19 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figure5g()
+function [sBasicStatsSupra, sStatsTestSupra, No] = figureS15e()
 % Open or closed-loop septum optogenetic stimulation for kindling-induced 
 % evoked temporal lobe seizures
 % This script conducts statistical analyses and bar graph outputs of
 % summarized data in csv (control vs. treatment)
-% Copyright(c) 2018, 2019, 2020 Yuichi Takeuchi
+% Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
-figureNo = 5;
+supplement = 'S';
+figureNo = 15;
 fgNo = 627;
-panel = 'G';
+panel = 'E';
 control = 'Closed';
 graphSuffix = 'Dly';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_PooledOnOff.mat'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
+outputFileName = ['Figure' supplement num2str(figureNo) panel '_' control 'LoopStim_PooledOnOff.mat'];
 
 %% Data import 1
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -20,7 +21,7 @@ supraTb = orgTb(logical(orgTb.Supra),:); %
 VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
 
 %% Data import 2
-supraTbTh = readtable(['tmp/Figure' num2str(figureNo) '_supraTbTh.csv']);
+supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
 
 %% Basic statistics and Statistical tests
 % supra
@@ -34,7 +35,7 @@ CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Du
 outputGraph = [1 1]; % pdf, png
 
 % supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Supra' control 'Loop_Pooled' graphSuffix '_'];
+outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_Pooled' graphSuffix '_'];
 [ flag ] = figsf_BarScatPairedOpt2( supraTbTh, VarNames, sBasicStatsSupra, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
 for i = 1:length(VarNames)
     movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])

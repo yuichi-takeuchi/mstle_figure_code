@@ -1,12 +1,12 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI] = figureS5d()
+function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI] = figureS15i()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 5;
+figureNo = 15;
 fgNo = 627;
-panel = 'D';
+panel = 'I';
 control = 'Open';
 inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
 outputFileName = ['Figure' supplement num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];

@@ -1,15 +1,16 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure5f()
+function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figureS15d()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 5;
+supplement = 'S';
+figureNo = 15;
 fgNo = 627;
-panel = 'F';
+panel = 'D';
 control = 'Closed';
 gThreshold = -0.4515;
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
+outputFileName = ['Figure' supplement num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -42,7 +43,7 @@ colorMat = [0.75 0.75 0.75; 0 0 0]; % [R G B]
 threshold = gThreshold;
 
 % supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Supra' control 'Loop_MIDistWithFit'];
+outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_MIDistWithFit'];
 [ flag ] = figsf_HistogramWThreshold1( supraMI, threshold, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
@@ -63,7 +64,7 @@ indThrshld = interleave(indThrshld, indThrshld);
 tempTb = table(indMI, indThrshld, 'VariableNames',{'MI','Thresholded'});
 
 supraTbTh = [supraTb, tempTb];
-writetable(supraTbTh, ['tmp/Figure' num2str(figureNo) '_supraTbTh.csv'])
+writetable(supraTbTh, ['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv'])
 
 %% Proportion of thresholded (labeled) conditions
 tempTbTh = supraTbTh;
