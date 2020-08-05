@@ -1,10 +1,10 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI] = figureS4d()
+function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI] = figureS14d()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 4;
+figureNo = 14;
 fgNo = 603;
 panel = 'D';
 control = 'Open';

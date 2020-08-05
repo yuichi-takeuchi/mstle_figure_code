@@ -1,13 +1,13 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figureS4e()
+function [sBasicStatsSupra, sStatsTestSupra, No] = figureS14e()
 % Open or closed-loop septum optogenetic stimulation for kindling-induced 
 % evoked temporal lobe seizures
 % This script conducts statistical analyses and bar graph outputs of
 % summarized data in csv (control vs. treatment)
-% Copyright(c) 2018, 2019, 2020 Yuichi Takeuchi
+% Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 4;
+figureNo = 14;
 fgNo = 603;
 panel = 'E';
 control = 'Open';
