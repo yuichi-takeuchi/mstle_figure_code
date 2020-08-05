@@ -1,10 +1,10 @@
-function [Stats, No] = figure6j()
+function [Stats, No] = figure5j()
 % Kindling threshold intensities for after-discharges and secondary
 % generalization with optogenetic interventions
 % Copyright (c) 2018, 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 6;
+figureNo = 5;
 fgNo = 627;
 panel = 'J';
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_ThresIntensity.csv'];
