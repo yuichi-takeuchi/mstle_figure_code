@@ -1,13 +1,13 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figureS3e()
+function [sBasicStatsSupra, sStatsTestSupra, No] = figureS9e()
 % Open or closed-loop septum optogenetic stimulation for kindling-induced 
 % evoked temporal lobe seizures
 % This script conducts statistical analyses and bar graph outputs of
 % summarized data in csv (control vs. treatment)
-% Copyright(c) 2018, 2019, 2020 Yuichi Takeuchi
+% Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 3;
+figureNo = 9;
 fgNo = 624;
 panel = 'E';
 control = 'Closed';
@@ -21,7 +21,7 @@ supraTb = orgTb(logical(orgTb.Supra),:); %
 VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
 
 %% Data import 2
-supraTbTh = readtable(['tmp/Figure' num2str(figureNo) '_supraTbTh.csv']);
+supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
 
 %% Basic statistics and Statistical tests
 % supra
@@ -36,7 +36,7 @@ outputGraph = [1 1]; % pdf, png
 
 % supra
 outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_Pooled' graphSuffix '_'];
-[ flag ] = figsf_BarScatPairedGray2( supraTbTh, VarNames, sBasicStatsSupra, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
+[ flag ] = figsf_BarScatPairedOpt2( supraTbTh, VarNames, sBasicStatsSupra, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
 for i = 1:length(VarNames)
     movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
     movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])

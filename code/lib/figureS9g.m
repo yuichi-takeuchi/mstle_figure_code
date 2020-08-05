@@ -1,4 +1,4 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figureS3g()
+function [sBasicStatsSupra, sStatsTestSupra, No] = figureS9g()
 % Open or closed-loop septum optogenetic stimulation for kindling-induced 
 % evoked temporal lobe seizures
 % This script conducts three-way ANOVA statistical analyses and graph outputs of
@@ -8,7 +8,7 @@ function [sBasicStatsSupra, sStatsTestSupra, No] = figureS3g()
 
 %% params
 supplement = 'S';
-figureNo = 3;
+figureNo = 9;
 fgNo = 624;
 panel = 'G';
 control = 'Closed';
