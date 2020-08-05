@@ -1,15 +1,16 @@
-function [sBasicStatsSub, sStatsTestSub, subCorStatTest, No] = figureS7a()
+function [sBasicStatsSub, sStatsTestSub, subCorStatTest, No] = figure6a()
 % This script prepares correlations between modulation index of dulation of
 % HPC electrographic seizures and delta Ctx, delta RS.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-supplement = 'S';
-figureNo = 7;
+supplement = '';
+figureNo = 6;
+figureNo_input = 2;
 fgNo = 641;
 panel = 'A';
 control = 'Open';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo_input) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
 outputFileName = ['Figure' supplement num2str(figureNo) panel '_' control 'LoopStim_MICor.mat'];
 
 %% Data import
