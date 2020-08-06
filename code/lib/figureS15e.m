@@ -21,14 +21,14 @@ supraTb = orgTb(logical(orgTb.Supra),:); %
 VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
 
 %% Data import 2
-supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
+% supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
 
 %% Basic statistics and Statistical tests
 % supra
 [ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.(10) );
 
 %% Figure preparation (clustered)
-colorMat = [0 0 0; 0 0 1]; % RGB
+% colorMat = [0 0 0; 0 0 1]; % RGB
 % Common labelings
 CTitle = {'Motor seizure', 'Wet-dog shaking', 'AD duration', 'HPC electrographic seizure', 'Ctx electrographic seizure'};
 CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Duration (s)'};
@@ -36,7 +36,8 @@ outputGraph = [1 1]; % pdf, png
 
 % supra
 outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_Pooled' graphSuffix '_'];
-[ flag ] = figsf_BarScatPairedOpt2( supraTbTh, VarNames, sBasicStatsSupra, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
+[ flag ] = figsf_BarScatPairedOpt1( supraTb, VarNames, sBasicStatsSupra, CTitle, CVLabel, outputGraph, outputFileNameBase);
+% [ flag ] = figsf_BarScatPairedOpt2( supraTbTh, VarNames, sBasicStatsSupra, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
 for i = 1:length(VarNames)
     movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
     movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])
