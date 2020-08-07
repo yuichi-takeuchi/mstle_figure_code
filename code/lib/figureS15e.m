@@ -50,5 +50,6 @@ No.supraTrials = length(supraTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
+disp('done')
 
 end

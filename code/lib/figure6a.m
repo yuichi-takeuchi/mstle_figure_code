@@ -113,5 +113,6 @@ No.subTrials = length(subTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSub', 'sStatsTestSub', 'subCorStatTest', 'No', '-v7.3')
+disp('done')
 
 end

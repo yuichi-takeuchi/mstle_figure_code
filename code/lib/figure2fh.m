@@ -5,10 +5,10 @@ function [sBasicStatsSub, sStatsTestSub, sBasicStatsSubMI, sStatsTestSubMI, chi2
 %% params
 figureNo = 2;
 fgNo = 641;
-panel1 = 'E';
+panel1 = 'F';
 panel2 = 'H';
 control = 'Open';
-gThreshold = 0.4515;
+gThreshold = 0.5; % 0.4515
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
 outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
 
@@ -104,5 +104,6 @@ No.subTrials = length(subTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSub', 'sStatsTestSub', 'sBasicStatsSubMI', 'sStatsTestSubMI', 'chi2', 'No', '-v7.3')
+disp('done')
 
 end

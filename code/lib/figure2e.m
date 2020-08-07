@@ -3,7 +3,7 @@ function [sBasicStatsSupra, sStatsTestSupra, No] = figure2e()
 % evoked temporal lobe seizures
 % Conducts statistical analyses and bar graph outputs of
 % summarized data in csv (control vs. treatment)
-% Copyright(c) 2018, 2019, 2020 Yuichi Takeuchi
+% Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 figureNo = 2;
@@ -43,5 +43,6 @@ No.supraTrials = length(supraTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
+disp('done')
 
 end

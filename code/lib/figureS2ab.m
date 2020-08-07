@@ -99,5 +99,6 @@ No = length(unique(srcTb.LTR));
 
 %% Save
 save(['../results/' outputFileNameBase '.mat'])
+disp('done')
 
 end

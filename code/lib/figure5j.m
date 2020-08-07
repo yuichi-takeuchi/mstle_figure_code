@@ -59,5 +59,6 @@ No(2).subTrials = length(orgTb60.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'Stats', 'No', '-v7.3')
+disp('done')
 
 end

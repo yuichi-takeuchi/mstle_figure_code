@@ -45,64 +45,12 @@ movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
 clear flag; close all
 
-%% Figure preparation of histgram with a threshold line without any fitting 
-% % Parameters
-% condition = [1]; % 0 for sub, 1 for supra
-% outputGraph = [1 1]; % pdf, png
-% colorMat = [0.75 0.75 0.75; 0 0 0]; % [R G B]
-% 
-% threshold = gThreshold;
-% 
-% % supra
-% outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_MIDistWithFit'];
-% [ flag ] = figsf_HistogramWThreshold1( supraMI, threshold, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
-% movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
-% movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
-% clear flag; close all
-
-%% Separation of data by the global threshold of MI (output is ~supraTbTh or ~subTbTh.csv file)
-% % parameters
-% threshold = gThreshold;
-% direction = [0]; % 0 for lower, 1 for upper
-% 
-% % CSV file output
-% tempMI = supraMI;
-% 
-% indMI = interleave(tempMI, tempMI);
-% indThrshld = tempMI < threshold;
-% 
-% indThrshld = interleave(indThrshld, indThrshld);
-% tempTb = table(indMI, indThrshld, 'VariableNames',{'MI','Thresholded'});
-% 
-% supraTbTh = [supraTb, tempTb];
-% writetable(supraTbTh, ['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv'])
-% 
-% %% Proportion of thresholded (labeled) conditions
-% tempTbTh = supraTbTh;
-% condVec = tempTbTh.(12);
-% unqcond = unique(condVec);
-% stimVec = tempTbTh.(10);
-% thrshldVec = tempTbTh.(23);
-% 
-% for i = 1:length(unqcond)
-%     n(i) = nnz(stimVec(condVec == unqcond(i) & thrshldVec == 1)); % Number of thresholded trials
-%     N(i) = nnz(stimVec(condVec == unqcond(i))); % No trial
-% end
-% [ chi2h, chi2p, chi2stats ] = statsf_chi2test( n, N ); % chi-square test
-% chi2 = struct(...
-%     'h', chi2h,...
-%     'p', chi2p,...
-%     'stats', chi2stats...
-%     );
-% 
-% percThrshlded = n./N;
-
 %% Number of rats and trials
 No.supraRats = length(unique(supraTb.LTR));
 No.supraTrials = length(supraTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'No', '-v7.3')
-% save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
-% save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+disp('done')
+
 end
