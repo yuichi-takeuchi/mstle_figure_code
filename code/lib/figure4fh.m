@@ -41,7 +41,7 @@ gThreshold = x(indForSeparation);
 %% Figure preparation of MI with curve fitting of two Gaussian components
 threshold = gThreshold;
 outputGraph = [1 1]; % pdf, png
-colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 1; 0 0 0]; % [R G B]
+colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 0; 0 0 1]; % [R G B]
 
 % supra
 outputFileNameBase = ['Figure' num2str(figureNo) panel1 '_Supra' control 'Loop_MIDistWithFit'];
