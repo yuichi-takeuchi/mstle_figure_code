@@ -9,7 +9,6 @@ fgNo = 624;
 panel1 = 'D';
 panel2 = 'F';
 control = 'Closed';
-gThreshold = -0.4515;
 inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
 outputFileName = ['Figure' supplement num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
 
@@ -34,6 +33,11 @@ supraMIpos = supraMI(supraMI >= 0);
 supraMIneg = supraMI(supraMI <= 0);
 [ sBasicStatsSupraMI, sStatsTestSupraMI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
 clear supraMIpos supraMIneg
+
+%% Get the threshold
+[ indForSeparation, ~ ] = fitf_gmm2fitFor1DdataSeparation1( supraMI );
+x = linspace(-1, 1, 1000);
+gThreshold = x(indForSeparation);
 
 %% Figure preparation of MI with curve fitting of two Gaussian components
 threshold = gThreshold;
