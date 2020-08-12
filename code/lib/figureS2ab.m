@@ -13,24 +13,25 @@ outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_RSDevelop'];
 
 %% Data import
 srcTb = readtable(['../data/' inputFileName]);
-extTb = srcTb(:,(1:7));
-VarNames = extTb.Properties.VariableNames; % {x__LTR, Date, ExpNo1, ExpNo2, Num, RS, WDS}
+% extTb = srcTb(:,(1:7));
+% VarNames = extTb.Properties.VariableNames; % {x__LTR, Date, ExpNo1, ExpNo2, Num, RS, WDS}
 
 %% Takeing variables
-Number = extTb.Num;
-RScale = extTb.RS;
-WDS = extTb.WDS;
+LTR = srcTb.LTR;
+Num = srcTb.Num;
+RS = srcTb.RS;
+WDS = srcTb.WDS;
 
 %% Descriptive parameters for plotting
-uniqueNum = unique(extTb.(VarNames{5}));
+uniqueNum = unique(Num);
 MeanRS = zeros(1,length(uniqueNum));
 StdRS = zeros(1,length(uniqueNum));
 MeanWDS = zeros(1,length(uniqueNum));
 StdWDS = zeros(1,length(uniqueNum));
 
 for i = 1:length(uniqueNum)
-    tempRS = extTb.RS(extTb.Num == i);
-    tempWDS = extTb.WDS(extTb.Num == i);
+    tempRS = RS(Num == i);
+    tempWDS = WDS(Num == i);
     MeanRS(i) = mean(tempRS);
     StdRS(i) = std(tempRS);
     MeanWDS(i) = mean(tempWDS);
@@ -38,13 +39,24 @@ for i = 1:length(uniqueNum)
 end
 clear i tempRS tempWDS
 
+%% get animal-resolved data
+animalID = unique(LTR);
+
+for i = 1:length(animalID)
+    idx = LTR == animalID(i);
+    animalRS(i,1:nnz(idx)) = RS(idx)';
+    animalWDS(i,1:nnz(idx)) = WDS(idx);
+end
+clear i animal ID
+
 %% Organizing figure
 close all
 hfig = figure(1);
 haxes1 = subplot(1,2,1);
 hold on
-plot(Number, RScale, 'ko', 'LineWidth', 0.5, 'MarkerSize', 3)
-plot(uniqueNum, MeanRS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 3)
+% plot(Number, RScale, 'ko', 'LineWidth', 0.5, 'MarkerSize', 3)
+plot(uniqueNum, animalRS, '-o', 'LineWidth', 0.4, 'MarkerSize', 3)
+plot(uniqueNum, MeanRS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 4)
 % errorbar(uniqueNum, MeanRS, StdRS, '-ok', 'MarkerFaceColor', 'k')
 hold off
 title('Motor seizure');
@@ -56,7 +68,8 @@ set(gca,...
     )     
 haxes2 = subplot(1,2,2);
 hold on
-plot(Number, WDS, 'ko', 'LineWidth', 0.5, 'MarkerSize', 3)
+% plot(Number, WDS, 'ko', 'LineWidth', 0.5, 'MarkerSize', 3)
+plot(uniqueNum, animalWDS, '-o', 'LineWidth', 0.4, 'MarkerSize', 3)
 plot(uniqueNum, MeanWDS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 3)
 % errorbar(uniqueNum, MeanWDS, StdWDS, '-ok', 'MarkerFaceColor', 'k')
 hold off
@@ -71,8 +84,8 @@ fontsize = 8;
 % figure parameter settings
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 15 9],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [16 10],... % width, height
+    'PaperPosition', [0.5 0.5 16 8],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [17 9],... % width, height
     'NumberTitle','on',...
     'Name','test'...
     );
