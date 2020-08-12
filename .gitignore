@@ -21,3 +21,17 @@
 *.tsp
 *.xlsx
 *.docx
+
+# ignore data directory
+/data/*
+!/data/.gitkeep
+
+# ignore private codes
+/code/lib/private/*
+!code/lib/private/.gitkeep
+/code/helper/private/*
+!code/helper/private/.gitkeep
+
+# ignore results directory
+/results/*
+!/results/.gitkeep
