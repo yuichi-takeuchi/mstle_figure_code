@@ -1,11 +1,11 @@
-function [sBasicStats_offset, sStatsTest_offset,...
-          sBasicStats_offset_pa, sStatsTest_offset_pa] = figureS5d()
+function [sBasicStats_delay, sStatsTest_delay,...
+          sBasicStats_delay_pa, sStatsTest_delay_pa] = figureS5f()
 % Copyright (c) 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
 figureNo = 5;
-panel = 'D';
+panel = 'F';
 outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
@@ -16,20 +16,21 @@ tb_99_100_1 = readtable('../data/LTR1_99_100_closed1_resultantVec.csv'); % close
 tb_stack = [tb_80_1;tb_99_100_1];
 tb_clsd = tb_stack(tb_stack.jitter ~= 1, :);
 
-[sBasicStats_offset] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.offset );
-[sStatsTest_offset] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.offset );
+[sBasicStats_delay] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.delay );
+[sStatsTest_delay] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.delay );
 
 %% get basic stats and tests on vector length per animal
-[MeanPerAnimal, ~, offsetVec] = statsf_meanPer1With2(tb_clsd.r, tb_clsd.LTR, tb_clsd.offset);
+[MeanPerAnimal, ~, delayVec] = statsf_meanPer1With2(tb_clsd.r, tb_clsd.LTR, tb_clsd.delay);
 
-[sBasicStats_offset_pa] = stats_sBasicStats_anova1( MeanPerAnimal, offsetVec );
-[sStatsTest_offset_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, offsetVec );
+[sBasicStats_delay_pa] = stats_sBasicStats_anova1( MeanPerAnimal, delayVec );
+[sStatsTest_delay_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, delayVec );
 
 %% graph 
 cndtnVec = zeros(size(tb_clsd.LTR));
-cndtnVec(tb_clsd.offset == 0) = 1;
-cndtnVec(tb_clsd.offset == 20) = 2;
-cndtnVec(tb_clsd.offset == 40) = 3;
+cndtnVec(tb_clsd.delay == 0) = 1;
+cndtnVec(tb_clsd.delay == 20) = 2;
+cndtnVec(tb_clsd.delay == 40) = 3;
+cndtnVec(tb_clsd.delay == 60) = 4;
 
 close all
 fignum = 1;
@@ -40,7 +41,7 @@ fignum = 1;
 set(hs.hb,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
 set(hs.hsct, 'MarkerSize', 4);
 set(hs.hylabel, 'String', 'r');
-set(hs.hxlabel, 'String', 'Time after seizure onset (s)');
+set(hs.hxlabel, 'String', 'Stimulus delay (ms)');
 set(hs.htitle, 'String', 'Length of resultant vector');
 
 % global arameters
@@ -50,23 +51,23 @@ fontsize = 6;
 % parameter settings
 set(hs.hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 9 4],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [10 5] ... % width, height
+    'PaperPosition', [0.5 0.5 14 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [15 5] ... % width, height
     );
 
 % axis parameter settings
 set(hs.hax,...
     'YLim', [0 1],...
-    'XLim', [0 4],...
-    'XTick', [1 2 3],...
-    'XTickLabel', {'0–20', '20–40', '40–60'},...
+    'XLim', [0 5],...
+    'XTick', [1 2 3 4],...
+    'XTickLabel', {'0', '20', '40', '60'},...
     'FontName', fontname,...
     'FontSize', fontsize...
     );
 
 % outputs
-print('../results/figureS5d.pdf', '-dpdf');
-print('../results/figureS5d.png', '-dpng');
+print('../results/figureS5f.pdf', '-dpdf');
+print('../results/figureS5f.png', '-dpng');
 close all
 
 %% Number of rats and trials
@@ -75,10 +76,10 @@ close all
 
 %% Save
 save(['../results/' outputFileName], ...
-    'sBasicStats_offset',...
-    'sStatsTest_offset',...
-    'sBasicStats_offset_pa',...
-    'sStatsTest_offset_pa'... 
+    'sBasicStats_delay',...
+    'sStatsTest_delay',...
+    'sBasicStats_delay_pa',...
+    'sStatsTest_delay_pa'... 
     )
 disp('done')
 

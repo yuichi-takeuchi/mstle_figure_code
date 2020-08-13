@@ -1,19 +1,19 @@
 function [sBasicStats_offset, sStatsTest_offset,...
-          sBasicStats_offset_pa, sStatsTest_offset_pa] = figureS5d()
+          sBasicStats_offset_pa, sStatsTest_offset_pa] = figureS6d()
 % Copyright (c) 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 5;
+figureNo = 6;
 panel = 'D';
 outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
-tb_80_1 = readtable('../data/LTR1_80_closed1_resultantVec.csv'); % closed-loop
-tb_99_100_1 = readtable('../data/LTR1_99_100_closed1_resultantVec.csv'); % closed-loop
+tb_82_83_1 = readtable('../data/LTR1_82_83_closed1_resultantVec.csv'); % closed-loop
+tb_119_120_1 = readtable('../data/LTR1_119_120_closed1_resultantVec.csv'); % closed-loop
 
 %% get basic stats and tests on vector length per trial
-tb_stack = [tb_80_1;tb_99_100_1];
+tb_stack = [tb_82_83_1;tb_119_120_1];
 tb_clsd = tb_stack(tb_stack.jitter ~= 1, :);
 
 [sBasicStats_offset] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.offset );
@@ -59,14 +59,14 @@ set(hs.hax,...
     'YLim', [0 1],...
     'XLim', [0 4],...
     'XTick', [1 2 3],...
-    'XTickLabel', {'0–20', '20–40', '40–60'},...
+    'XTickLabel', {'0 – 20', '20 – 40', '40 – 60'},...
     'FontName', fontname,...
     'FontSize', fontsize...
     );
 
 % outputs
-print('../results/figureS5d.pdf', '-dpdf');
-print('../results/figureS5d.png', '-dpng');
+print('../results/figureS6d.pdf', '-dpdf');
+print('../results/figureS6d.png', '-dpng');
 close all
 
 %% Number of rats and trials
