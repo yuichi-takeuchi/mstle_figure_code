@@ -1,4 +1,4 @@
-function [Stats, No] = figure5k()
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5k()
 % Kindling threshold intensities for after-discharges and secondary
 % generalization with electrical interventions
 % Copyright (c) 2018-2020 Yuichi Takeuchi
@@ -44,13 +44,13 @@ fontname = 'Arial';
 fontsize = 5;
 
 % left part (after discharge)
-hax(1) = subplot(1, 2, 1);
-[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, hax(1) );
+hax = subplot(1, 2, 1);
+[ hs, hsplt ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, hax );
 
 set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5);
 set(hs.bar(1), 'FaceColor',[1 1 1]);
 set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
-set(hs.plt, 'LineWidth', 0.5, 'MarkerSize', 4);
+% set(hs.plt, 'LineWidth', 0.5, 'MarkerSize', 4);
 set(hs.xlbl, 'String', 'Estim');
 set(hs.ylbl, 'String', 'Intensity (uA)');
 set(hs.ttl, 'String', 'Threshold for HPC');
@@ -63,11 +63,11 @@ set(hs.ax,...
     'FontSize', fontsize...
     );
 
-hax(2) = subplot(1, 2, 2);
-[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, hax(2) );
+hax = subplot(1, 2, 2);
+[ hs,hsplt ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, hax );
 set(hs.bar(1), 'FaceColor',[1 1 1]);
 set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
-set(hs.plt, 'LineWidth', 0.5, 'MarkerSize', 4);
+% set(hs.plt, 'LineWidth', 0.5, 'MarkerSize', 4);
 set(hs.xlbl, 'String', 'Estim');
 set(hs.ylbl, 'String', 'Intensity (uA)');
 set(hs.ttl, 'String', 'Threshold for Ctx');
@@ -87,13 +87,17 @@ print('../results/figure5k.png', '-dpng');
 close all
 
 %% Number of rats and trials
-No(1).subRats = length(unique(orgTb05.LTR));
-No(1).subTrials = length(orgTb05.LTR);
-No(2).subRats = length(unique(dataTb.LTR));
-No(2).subTrials = length(dataTb.LTR);
+No.subRats = length(unique(dataTb.LTR));
+No.subTrials = length(dataTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'Stats', 'No', '-v7.3')
+save(['../results/' outputFileName],...
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_pa',...
+    'sStatsTest_pa',...
+    'No',...
+    '-v7.3')
 disp('done')
 
 end
