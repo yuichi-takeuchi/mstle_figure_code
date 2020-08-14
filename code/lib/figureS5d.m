@@ -17,13 +17,13 @@ tb_stack = [tb_80_1;tb_99_100_1];
 tb_clsd = tb_stack(tb_stack.jitter ~= 1, :);
 
 [sBasicStats_offset] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.offset );
-[sStatsTest_offset] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.offset );
+[sStatsTest_offset] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.offset , 'bonferroni');
 
 %% get basic stats and tests on vector length per animal
 [MeanPerAnimal, ~, offsetVec] = statsf_meanPer1With2(tb_clsd.r, tb_clsd.LTR, tb_clsd.offset);
 
 [sBasicStats_offset_pa] = stats_sBasicStats_anova1( MeanPerAnimal, offsetVec );
-[sStatsTest_offset_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, offsetVec );
+[sStatsTest_offset_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, offsetVec, 'bonferroni');
 
 %% graph 
 cndtnVec = zeros(size(tb_clsd.LTR));
