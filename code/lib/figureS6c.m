@@ -1,9 +1,5 @@
-function [sBasicStats_clsd, sStatsTest_clsd,...
-    sBasicStats_jttr, sStatsTest_jttr,...
-    sBasicStats_clsd_pa, sStatsTest_clsd_pa,...
-    sBasicStats_jttr_pa, sStatsTest_jttr_pa] = figureS6c()
+function [sBasicStats_intrvntn, sStatsTest_intrvntn, sBasicStats_intrvntn_pa,sStatsTest_intrvntn_pa] = figureS6c()
 % Copyright (c) 2020 Yuichi Takeuchi
-
 %% params
 supplement = 'S';
 figureNo = 6;
@@ -13,49 +9,26 @@ outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
 %% data import
 tb_82_83_0 = readtable('../data/LTR1_82_83_closed0_resultantVec.csv'); % open-loop
 tb_82_83_1 = readtable('../data/LTR1_82_83_closed1_resultantVec.csv'); % closed-loop
-tb_119_120_0 = readtable('../data/LTR1_99_100_closed0_resultantVec.csv'); % open-loop
-tb_119_120_1 = readtable('../data/LTR1_99_100_closed1_resultantVec.csv'); % closed-loop
+tb_119_120_0 = readtable('../data/LTR1_119_120_closed0_resultantVec.csv'); % open-loop
+tb_119_120_1 = readtable('../data/LTR1_119_120_closed1_resultantVec.csv'); % closed-loop
 
-%% data extraction
-[r_82_0, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_82_83_0, 82, 0);
-[r_82_1, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_82_83_1, 82, 0);
-[r_83_0, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_82_83_0, 83, 0);
-[r_83_1, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_82_83_1, 83, 0);
-[r_82_1_j, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_82_83_1, 82, 1);
-[r_83_1_j, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_82_83_1, 83, 1);
-[r_119_0, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_119_120_0, 119, 0);
-[r_119_1, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_119_120_1, 119, 0);
-[r_120_0, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_119_120_0, 120, 0);
-[r_120_1, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_119_120_1, 120, 0);
-[r_119_1_j, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_119_120_1, 119, 1);
-[r_120_1_j, ~, ~, ~] = extractParamsFromTb_LTR_jitter(tb_119_120_1, 120, 1);
-
-%% get basic stats and tests on vector length per trial
-r_open = [r_82_0;r_83_0;r_119_0;r_120_0];
-r_closed = [r_82_1;r_83_1;r_119_1;r_120_1];
-r_jitter =[r_82_1_j;r_83_1_j;r_119_1_j;r_120_1_j];
-% open vs. closed-loop
-[ sBasicStats_clsd, sStatsTest_clsd ] = statsf_getBasicStatsAndTestStructs2( r_open, r_closed );
-% closed vs. jitter
-[ sBasicStats_jttr, sStatsTest_jttr ] = statsf_getBasicStatsAndTestStructs2( r_closed, r_jitter );
-
-%% get basic stats and tests on vector length per animal
-r_open_pa = cellfun(@mean, {r_82_0;r_83_0;r_119_0;r_120_0});
-r_closed_pa = cellfun(@mean, {r_82_1;r_83_1;r_119_1;r_120_1});
-r_jitter_pa = cellfun(@mean, {r_82_1_j;r_83_1_j;r_119_1_j;r_120_1_j});
-% open vs. closed-loop
-[ sBasicStats_clsd_pa, sStatsTest_clsd_pa ] = statsf_getBasicStatsAndTestStructs2( r_open_pa, r_closed_pa );
-% closed vs. jitter
-[ sBasicStats_jttr_pa, sStatsTest_jttr_pa ] = statsf_getBasicStatsAndTestStructs2( r_closed_pa, r_jitter_pa );
-
-%% graph 
+%% data reorganization
 dataTb = [tb_82_83_0; tb_82_83_1; tb_119_120_0; tb_119_120_1];
-
 cndtnVec = zeros(size(dataTb.LTR));
 cndtnVec(dataTb.closed == 0) = 1;
 cndtnVec(dataTb.closed == 1 & dataTb.jitter == 0) = 2;
 cndtnVec(dataTb.closed == 1 & dataTb.jitter == 1) = 3;
 
+%% get basic stats and tests on vector length per trial
+[sBasicStats_intrvntn] = stats_sBasicStats_anova1( dataTb.r, cndtnVec );
+[sStatsTest_intrvntn] = stats_ANOVA1StatsStructs1( dataTb.r, cndtnVec , 'bonferroni');
+
+%% get basic stats and tests on vector length per animal
+[MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(dataTb.r, dataTb.LTR, cndtnVec);
+[sBasicStats_intrvntn_pa] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+[sStatsTest_intrvntn_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, intrvntnVec, 'bonferroni');
+
+%% graph 
 close all
 fignum = 1;
 % building a plot
@@ -99,15 +72,11 @@ close all
 % No.trials_1 = sum(height(tb_80_1), height(tb_99_100_1));
 
 %% Save
-save(['../results/' outputFileName], ...
-    'sBasicStats_clsd', ...
-    'sStatsTest_clsd', ...
-    'sBasicStats_jttr', ...
-    'sStatsTest_jttr', ...
-    'sBasicStats_clsd_pa', ...
-    'sStatsTest_clsd_pa', ...
-    'sBasicStats_jttr_pa', ...
-    'sStatsTest_jttr_pa')
+save(['../results/' outputFileName],...
+    'sBasicStats_intrvntn',...
+    'sStatsTest_intrvntn',...
+    'sBasicStats_intrvntn_pa',...
+    'sStatsTest_intrvntn_pa')
 disp('done')
 
 end
