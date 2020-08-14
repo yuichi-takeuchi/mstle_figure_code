@@ -1,61 +1,96 @@
 function [Stats, No] = figure5k()
 % Kindling threshold intensities for after-discharges and secondary
 % generalization with electrical interventions
-% Copyright (c) 2018, 2019, 2020 Yuichi Takeuchi
+% Copyright (c) 2018-2020 Yuichi Takeuchi
 
 %% params
 figureNo = 5;
 fgNo = 641;
 panel = 'K';
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_ThresIntensity.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_Fg' num2str(fgNo) '_ThresIntensity.mat'];
+outputFileName = ['Figure' num2str(figureNo) panel '_ThresIntensity.mat'];
 
 %% Data import
-orgTb = readtable(['../data/' inputFileName]); % original csv data
-VarNames = orgTb.Properties.VariableNames(10:11); % {ADThrs, sGSThrs}
-
-% Conditioing by conditining stimulus duration
-orgTb05 = orgTb(orgTb.(7) == 5,:);
-orgTb60 = orgTb(orgTb.(7) == 60,:);
+srcTb = readtable(['../data/' inputFileName]); % original csv data
+VarNames = srcTb.Properties.VariableNames(10:11); % {ADThrs, sGSThrs}
+dataTb = srcTb(srcTb.stmDrtn == 60,:);
 
 %% Basic statistics and Statistical tests
-[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( orgTb05, VarNames, orgTb05.(6)); % orgTb.(6) = Laser or MSEStm
-Stats(1).Basic = sBasicStats;
-Stats(1).Test = sStatsTest;
-[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( orgTb60, VarNames, orgTb60.(6)); % orgTb.(6) = Laser or MSEStm
-Stats(2).Basic = sBasicStats;
-Stats(2).Test = sStatsTest;
-clear sBasicStats sStatsTest
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( dataTb, VarNames, dataTb.MSEstm); % orgTb.(6) = Laser or MSEStm
+
+%% animal basis stats (independent)
+for i = 1:length(VarNames)
+    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(dataTb.(VarNames{i}), dataTb.LTR, dataTb.MSEstm);
+    [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+    [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( dataTb.(VarNames{i}), dataTb.MSEstm );
+end
 
 %% Figure preparation
-% Labelings 
-CTitle = {'Threshold for HPC', 'Threshold for Ctx'};
-CVLabel = {'Intensity (uA)', 'Intensity (uA)'};
-outputGraph = [1 1]; % pdf, png
+% params
+cndtnVec = dataTb.MSEstm + 1;
 
-% 5 s conditioning
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_ThrsInt05_'];
-[ flag ] = figsf_BarScatPairedGray1( orgTb05, VarNames, Stats(1).Basic, CTitle, CVLabel, outputGraph, outputFileNameBase);
-for i = 1:length(VarNames)
-    movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
-    movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])
-end
 close all
+hfig = figure(1);
 
-% 60 s conditioning
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_ThrsInt60_'];
-[ flag ] = figsf_BarScatPairedGray1( orgTb60, VarNames, Stats(2).Basic, CTitle, CVLabel, outputGraph, outputFileNameBase);
-for i = 1:length(VarNames)
-    movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
-    movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])
-end
+% parameter settings
+set(hfig,...
+    'PaperUnits', 'centimeters',...
+    'PaperPosition', [0.5 0.5 9 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [10 5] ... % width, height
+    );
+
+% global parameters
+fontname = 'Arial';
+fontsize = 5;
+
+% left part (after discharge)
+hax(1) = subplot(1, 2, 1);
+[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, hax(1) );
+
+set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5);
+set(hs.bar(1), 'FaceColor',[1 1 1]);
+set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+set(hs.plt, 'LineWidth', 0.5, 'MarkerSize', 4);
+set(hs.xlbl, 'String', 'Estim');
+set(hs.ylbl, 'String', 'Intensity (uA)');
+set(hs.ttl, 'String', 'Threshold for HPC');
+
+set(hs.ax,...
+    'XLim', [0.5 2.5],...
+    'XTick', [1 2],...
+    'XTickLabel', {'Off', 'On'},...
+    'FontName', fontname,...
+    'FontSize', fontsize...
+    );
+
+hax(2) = subplot(1, 2, 2);
+[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, hax(2) );
+set(hs.bar(1), 'FaceColor',[1 1 1]);
+set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+set(hs.plt, 'LineWidth', 0.5, 'MarkerSize', 4);
+set(hs.xlbl, 'String', 'Estim');
+set(hs.ylbl, 'String', 'Intensity (uA)');
+set(hs.ttl, 'String', 'Threshold for Ctx');
+
+set(hs.ax,...
+    'XLim', [0.5 2.5],...
+    'XTick', [1 2],...
+    'XTickLabel', {'Off', 'On'},...
+    'FontName', fontname,...
+    'FontSize', fontsize...
+    );
+
+% outputs
+print('../results/figure5k.pdf', '-dpdf');
+print('../results/figure5k.png', '-dpng');
+
 close all
 
 %% Number of rats and trials
 No(1).subRats = length(unique(orgTb05.LTR));
 No(1).subTrials = length(orgTb05.LTR);
-No(2).subRats = length(unique(orgTb60.LTR));
-No(2).subTrials = length(orgTb60.LTR);
+No(2).subRats = length(unique(dataTb.LTR));
+No(2).subTrials = length(dataTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'Stats', 'No', '-v7.3')
