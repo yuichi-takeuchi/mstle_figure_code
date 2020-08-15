@@ -38,25 +38,25 @@ fignum = 1;
 [ hs ] = figf_BarMeanScat1( tb_clsd.LTR, tb_clsd.r, cndtnVec, fignum );
  
 % setting parametors of bars and plots
-set(hs.hb,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
-set(hs.hsct, 'MarkerSize', 4);
-set(hs.hylabel, 'String', 'r');
-set(hs.hxlabel, 'String', 'Stimulus delay (ms)');
-set(hs.htitle, 'String', 'Length of resultant vector');
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
+set(hs.sct, 'MarkerSize', 4);
+set(hs.ylbl, 'String', 'r');
+set(hs.xlbl, 'String', 'Stimulus delay (ms)');
+set(hs.ttl, 'String', 'Length of resultant vector');
 
 % global arameters
 fontname = 'Arial';
 fontsize = 6;
 
 % parameter settings
-set(hs.hfig,...
+set(hs.fig,...
     'PaperUnits', 'centimeters',...
     'PaperPosition', [0.5 0.5 14 4],... % [h distance, v distance, width, height], origin: left lower corner
     'PaperSize', [15 5] ... % width, height
     );
 
 % axis parameter settings
-set(hs.hax,...
+set(hs.ax,...
     'YLim', [0 1],...
     'XLim', [0 5],...
     'XTick', [1 2 3 4],...

@@ -27,13 +27,13 @@ hfig = figure(1);
 hax1 = subplot(1, 2, 1);
 hph1 = polarhistogram(instPhs_open, 12);
 hpax1 = gca;
-htt1 = title('open-loop');
+httl1 = title('open-loop');
 
 % right part (closed-loop)
 hax2 = subplot(1, 2, 2);
 hph2 = polarhistogram(instPhs_closed, 12);
 hpax2 = gca;
-htt2 = title('closed-loop');
+httl2 = title('closed-loop');
 
 % global arameters
 fontname = 'Arial';

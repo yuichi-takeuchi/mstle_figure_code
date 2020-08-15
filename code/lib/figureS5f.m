@@ -17,13 +17,13 @@ tb_stack = [tb_80_1;tb_99_100_1];
 tb_clsd = tb_stack(tb_stack.jitter ~= 1, :);
 
 [sBasicStats_delay] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.delay );
-[sStatsTest_delay] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.delay );
+[sStatsTest_delay] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.delay, 'bonferroni');
 
 %% get basic stats and tests on vector length per animal
 [MeanPerAnimal, ~, delayVec] = statsf_meanPer1With2(tb_clsd.r, tb_clsd.LTR, tb_clsd.delay);
 
 [sBasicStats_delay_pa] = stats_sBasicStats_anova1( MeanPerAnimal, delayVec );
-[sStatsTest_delay_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, delayVec );
+[sStatsTest_delay_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, delayVec, 'bonferroni');
 
 %% graph 
 cndtnVec = zeros(size(tb_clsd.LTR));
@@ -38,25 +38,25 @@ fignum = 1;
 [ hs ] = figf_BarMeanScat1( tb_clsd.LTR, tb_clsd.r, cndtnVec, fignum );
  
 % setting parametors of bars and plots
-set(hs.hb,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
-set(hs.hsct, 'MarkerSize', 4);
-set(hs.hylabel, 'String', 'r');
-set(hs.hxlabel, 'String', 'Stimulus delay (ms)');
-set(hs.htitle, 'String', 'Length of resultant vector');
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
+set(hs.sct, 'MarkerSize', 4);
+set(hs.ylbl, 'String', 'r');
+set(hs.xlbl, 'String', 'Stimulus delay (ms)');
+set(hs.ttl, 'String', 'Length of resultant vector');
 
 % global arameters
 fontname = 'Arial';
 fontsize = 6;
 
 % parameter settings
-set(hs.hfig,...
+set(hs.fig,...
     'PaperUnits', 'centimeters',...
     'PaperPosition', [0.5 0.5 14 4],... % [h distance, v distance, width, height], origin: left lower corner
     'PaperSize', [15 5] ... % width, height
     );
 
 % axis parameter settings
-set(hs.hax,...
+set(hs.ax,...
     'YLim', [0 1],...
     'XLim', [0 5],...
     'XTick', [1 2 3 4],...

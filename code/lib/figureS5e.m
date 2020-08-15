@@ -27,25 +27,25 @@ hfig = figure(1);
 hax(1) = subplot(1, 4, 1);
 hph(1) = polarhistogram(instPhs_0, 12);
 hpax(1) = gca;
-htt(1) = title('0 ms');
+httl(1) = title('0 ms');
 
 % 20 ms
 hax(2) = subplot(1, 4, 2);
 hph(2) = polarhistogram(instPhs_20, 12);
 hpax(2) = gca;
-htt(2) = title('20 ms');
+httl(2) = title('20 ms');
 
 % 40 ms
 hax(3) = subplot(1, 4, 3);
 hph(3) = polarhistogram(instPhs_40, 12);
 hpax(3) = gca;
-htt(3) = title('40 ms');
+httl(3) = title('40 ms');
 
 % 60 ms
 hax(4) = subplot(1, 4, 4);
 hph(4) = polarhistogram(instPhs_60, 12);
 hpax(4) = gca;
-htt(4) = title('60 ms');
+httl(4) = title('60 ms');
 
 % global arameters
 fontname = 'Arial';
