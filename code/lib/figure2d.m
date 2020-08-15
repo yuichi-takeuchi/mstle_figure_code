@@ -1,15 +1,14 @@
 function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, No] = figure2d()
-%
 % Calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 2;
 fgNo = 641;
-panel = 'D';
+panel = 'd';
 control = 'Open';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_MIDist.mat'];
+inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_OpenLoopStim.csv'];
+outputFileName = ['Figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -18,32 +17,81 @@ VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, C
 
 %% Basic statistics and Statistical tests
 % supra
-[ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.(10) );
+[ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.MSEstm );
 
 %% Calculation of parameters (MI)
 % getting parameters (supra)
-HPCOff = supraTb.(VarNames{4})(logical(supraTb.(10)) == false);
-HPCOn  = supraTb.(VarNames{4})(logical(supraTb.(10)) == true);
+HPCOff = supraTb.HPCDrtn(supraTb.MSEstm == false);
+HPCOn  = supraTb.HPCDrtn(supraTb.MSEstm == true);
 supraMI = (HPCOn-HPCOff)./(HPCOn+HPCOff);
-clear HPCOff HPCOn
-
 
 %% Skewness test
 supraMIpos = supraMI(supraMI >= 0);
 supraMIneg = supraMI(supraMI <= 0);
 [ sBasicStatsSupraMI, sStatsTestSupraMI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
-clear supraMIpos supraMIneg
 
 %% Figure preparation of MI with curve fitting with one Gaussian component
-outputGraph = [1 1]; % pdf, png
-colorMat = [0.75 0.75 0.75; 0 0 0];
+% fitting
+binWidth = 0.1;
 
-% supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Supra' control 'Loop_MIDistWithFit'];
-[ flag ] = figsf_HistogramWOneGaussian1( supraMI, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
-movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
-movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
-clear flag; close all
+numGaussian = 1;
+gmdist = fitgmdist(supraMI, numGaussian);
+gmsigma = gmdist.Sigma;
+gmmu = gmdist.mu;
+gmwt = gmdist.ComponentProportion;
+x = linspace(-1, 1, 1000);
+fitdata = pdf(gmdist, x')*gmwt(1)*binWidth;
+
+
+% id of animals
+idVec = supraTb.LTR(supraTb.MSEstm == true);
+edges = [-1:binWidth:1];
+close all
+
+hfig = figure(1);
+hax = axes;
+
+% building a plot
+[ hs ] = figf_BarAsStackedHistWOneFit1(hax, supraMI, idVec, edges, x, fitdata, 'probability' );
+
+% global parameters
+fontname = 'Arial';
+fontsize = 5;
+
+% figure parameter settings
+set(hfig,...
+    'PaperUnits', 'centimeters',...
+    'PaperPosition', [0.5 0.5 4 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [5 5]... % width, height
+    );
+
+% axis parameter settings
+set(hs.ax,...
+    'FontName', fontname,...
+    'FontSize', fontsize...
+    );
+
+incrStep = 0.8/length(unique(supraTb.LTR));
+for i = 1:length(unique(supraTb.LTR))
+    set(hs.bar(i),...
+        'FaceColor', [0.1+i*incrStep 0.1+i*incrStep 0.1+i*incrStep]...
+        );
+end
+
+% fitting curve parameter settings
+set(hs.plt,...
+    'Color', [0 0 0]...
+    );
+
+set(hs.ylbl, 'String', 'Probability');
+set(hs.xlbl, 'String', 'Modulation index');
+set(hs.ttl, 'String', 'MI of HPC seizures');
+
+% outputs
+print(['../results/figure' num2str(figureNo) panel '.pdf'], '-dpdf');
+print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
+
+close all
 
 %% Number of rats and trials
 No.supraRats = length(unique(supraTb.LTR));

@@ -1,53 +1,104 @@
-function [sBasicStatsSub, sStatsTestSub, No] = figure2g()
-% Open or closed-loop septum optogenetic stimulation for kindling-induced 
-% evoked temporal lobe seizures
-% This script conducts statistical analyses and bar graph outputs of
-% summarized data in csv (control vs. treatment)
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure2g()
 % Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 figureNo = 2;
-fgNo = 641;
-panel = 'G';
-control = 'Open';
-graphSuffix = 'Hz';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_PooledOnOff.mat'];
+panel = 'g';
+inputFileName = ['Figure' num2str(figureNo) '_Fg641_OpenLoopStim.csv'];
+outputFileName = ['Figure' num2str(figureNo) panel '.mat'];
 
 %% Data import 1
 orgTb = readtable(['../data/' inputFileName]); % original csv data
 subTb = orgTb(~logical(orgTb.Supra),:); % 
-VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
+VarNames = orgTb.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
 
 %% Data import 2
 subTbTh = readtable(['tmp/Figure' num2str(figureNo) '_subTbTh.csv']);
 
 %% Basic statistics and Statistical tests
 % sub
-[ sBasicStatsSub, sStatsTestSub ] = statsf_getBasicStatsAndTestStructs1( subTb, VarNames, subTb.(10) );
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( subTb, VarNames, subTb.MSEstm );
+
+%% animal basis stats (independent)
+for i = 1:length(VarNames)
+    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(subTb.(VarNames{i}), subTb.LTR, subTb.MSEstm);
+    [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+    [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( subTb.(VarNames{i}), subTb.MSEstm);
+end
 
 %% Figure preparation (clustered)
-colorMat = [0 0 0; 1 0 0]; % RGB
 % Common labelings
-CTitle = {'Motor seizure', 'Wet-dog shaking', 'AD duration', 'HPC electrographic seizure', 'Ctx electrographic seizure'};
-CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Duration (s)'};
-outputGraph = [1 1]; % pdf, png
+CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
+CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
 
-% MS Estim
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Sub' control 'Loop_Pooled' graphSuffix '_'];
-[ flag ] = figsf_BarScatPairedGray2( subTbTh, VarNames, sBasicStatsSub, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
+close all
+hfig = figure(1);
 for i = 1:length(VarNames)
-    movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
-    movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])
+        
+    % figure parameter settings
+    set(hfig,...
+        'PaperUnits', 'centimeters',...
+        'PaperPosition', [0.5 0.5 14 4],... % [h distance, v distance, width, height], origin: left lower corner
+        'PaperSize', [15 5]... % width, height
+        );
+    
+    % global parameters
+    fontname = 'Arial';
+    fontsize = 5;
+    
+    % axis
+    hax = subplot(1, 3, i);
+    
+    % building a plot
+    [ hs ] = figf_BarMeanIndpndPlot2( subTb.LTR, subTb.(VarNames{i}), subTb.MSEstm + 1, subTbTh.Thresholded + 1, hax );
+ 
+    % setting parametors of bars and plots
+    set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5);
+    set(hs.bar(1), 'FaceColor',[1 1 1]);
+    set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+    
+    for j = 1:size(hs.cplt, 2)
+        set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 0]);
+        set(hs.cplt{2,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [1 0 0]);
+    end
+    
+    set(hs.xlbl, 'String', 'Estim');
+    set(hs.ylbl, 'String', CVLabel{i});
+    set(hs.ttl, 'String', CTitle{i});
+    
+    % patch
+    hax = gca;
+    yl = get(hax, 'YLim');
+    
+    % axis parameter settings
+    set(hs.ax,...
+        'YLim', yl,...
+        'XLim', [0.5 2.5],...
+        'XTick', [1 2],...
+        'XTickLabel', {'Off', 'On'},...
+        'FontName', fontname,...
+        'FontSize', fontsize...
+        );
 end
-clear flag outputFileNameBase; close all
+
+% outputs
+print(['../results/figure' num2str(figureNo) panel '.pdf'], '-dpdf');
+print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
+
+close all
 
 %% Number of rats and trials
-No.subRats = length(unique(subTb.LTR));
-No.subTrials = length(subTb.LTR);
+No.Rats = length(unique(subTb.LTR));
+No.Trials = length(subTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStatsSub', 'sStatsTestSub', 'No', '-v7.3')
+save(['../results/' outputFileName],...
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_pa',...
+    'sStatsTest_pa',...
+    'No',...
+    '-v7.3')
 disp('done')
 
 end

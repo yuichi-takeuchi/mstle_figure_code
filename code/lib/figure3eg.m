@@ -1,15 +1,14 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, chi2] = figure3eg()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, chi2] = figure3eg()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 3;
-fgNo = 641;
-panel1 = 'E';
-panel2 = 'G';
+panel1 = 'e';
+panel2 = 'g';
 control = 'Closed';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '_' control 'LoopStim_MIDist.mat'];
+inputFileName = ['Figure' num2str(figureNo) '_Fg641_ClosedLoopStim.csv'];
+outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -18,20 +17,18 @@ VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, C
 
 %% Basic statistics and Statistical tests
 % supra
-[ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.(10) );
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.MSEstm );
 
 %% Calculation of parameters (MI)
 % getting parameters (supra)
-HPCOff = supraTb.(VarNames{4})(logical(supraTb.(10)) == false);
-HPCOn  = supraTb.(VarNames{4})(logical(supraTb.(10)) == true);
+HPCOff = supraTb.HPCDrtn(supraTb.MSEstm == false);
+HPCOn  = supraTb.HPCDrtn(supraTb.MSEstm == true);
 supraMI = (HPCOn-HPCOff)./(HPCOn+HPCOff);
-clear HPCOff HPCOn
 
 %% Skewness test
 supraMIpos = supraMI(supraMI >= 0);
 supraMIneg = supraMI(supraMI <= 0);
-[ sBasicStatsSupraMI, sStatsTestSupraMI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
-clear supraMIpos supraMIneg
+[ sBasicStats_MI, sStatsTest_MI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
 
 %% Get the threshold
 [ indForSeparation, ~ ] = fitf_gmm2fitFor1DdataSeparation1( supraMI );
@@ -40,15 +37,92 @@ gThreshold = x(indForSeparation);
 
 %% Figure preparation of MI with curve fitting of two Gaussian components
 threshold = gThreshold;
-outputGraph = [1 1]; % pdf, png
-colorMat = [0.75 0.75 0.75; 0 0 0; 0 0 1; 0 0 0]; % [R G B]
 
-% supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel1 '_Supra' control 'Loop_MIDistWithFit'];
-[ flag ] = figsf_HistogramWTwoGaussians2( supraMI, threshold, 'MI of HPC seizures', 'Probability', 'Modulation index', colorMat, outputGraph, outputFileNameBase);
-movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
-movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
-clear flag; close all
+% fitting
+numGaussian = 2;
+gmdist = fitgmdist(supraMI, numGaussian);
+gmsigma = gmdist.Sigma;
+gmmu = gmdist.mu;
+gmwt = gmdist.ComponentProportion;
+x = linspace(-1, 1, 1000);
+binWidth = 0.1;
+fit1 = pdf(gmdist, x')*binWidth; 
+fit2 = pdf('Normal', x, gmmu(1), gmsigma(1)^0.5)*gmwt(1)*binWidth;
+fit3 = pdf('Normal', x, gmmu(2), gmsigma(2)^0.5)*gmwt(2)*binWidth;
+
+% id of animals
+idVec = supraTb.LTR(supraTb.MSEstm == true);
+edges = [-1:binWidth:1];
+close all
+
+hfig = figure(1);
+hax = axes;
+
+% building a plot
+[ hs ] = figf_BarAsStackedHistWThreeFits1(hax, supraMI, idVec, edges, x, fit1, fit2, fit3, 'probability' ); % data1, data2, fignum
+
+% global parameters
+fontname = 'Arial';
+fontsize = 5;
+
+% figure parameter settings
+set(hfig,...
+    'PaperUnits', 'centimeters',...
+    'PaperPosition', [0.5 0.5 4 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [5 5]... % width, height
+    );
+
+% axis parameter settings
+set(hs.ax,...
+    'FontName', fontname,...
+    'FontSize', fontsize...
+    );
+
+incrStep = 0.8/length(unique(supraTb.LTR));
+for i = 1:length(unique(supraTb.LTR))
+    set(hs.bar(i),...
+        'FaceColor', [0.1+i*incrStep 0.1+i*incrStep 0.1+i*incrStep]...
+        );
+end
+
+% fitting curve parameter settings
+set(hs.plt{1},...
+    'Color', [0 0 0]...
+    );
+
+set(hs.plt{2},...
+    'LineStyle', '--',...
+    'LineWidth', 1,...
+    'Color', [0 0 0]...
+    );
+
+set(hs.plt{3},...
+    'LineStyle', '--',...
+    'LineWidth', 1,...
+    'Color', [0 0 1]...
+    );
+
+set(hs.ylbl, 'String', 'Probability');
+set(hs.xlbl, 'String', 'Modulation index');
+set(hs.ttl, 'String', 'MI of HPC seizures');
+
+% separation line
+% [ indForSeparation, ~ ] = fitf_gmm2fitFor1DdataSeparation1( data );
+figure(hfig)
+yLimits = get(gca,'YLim');
+% hl = line(gca, [x(indForSeparation) x(indForSeparation)], yLimits);
+hl = line(gca, [threshold threshold], yLimits);
+
+set(hl,...
+    'LineStyle', ':',...
+    'LineWidth', 1,...
+    'Color', [0 0 0]);
+
+% outputs
+print(['../results/figure' num2str(figureNo) panel1 '.pdf'], '-dpdf');
+print(['../results/figure' num2str(figureNo) panel1 '.png'], '-dpng');
+
+close all
 
 %% Separation of data by the global threshold of MI (output is ~supraTbTh or ~subTbTh.csv file)
 % parameters
@@ -96,18 +170,20 @@ outputGraph = [1 1]; % pdf, png
 colorMat = [0 0 0];
 CHLabel = 'MS stimulation delay (ms)';
 
-outputFileNameBase = ['Figure' num2str(figureNo) panel2 '_Supra' control 'Loop_PercThrshlded'];
-[ flag ] = figsf_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
+outputFileNameBase = ['Figure' num2str(figureNo) panel2];
+[ flag ] = figset_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
 close all
 
 %% Number of rats and trials
-No.supraRats = length(unique(supraTb.LTR));
-No.supraTrials = length(supraTb.LTR);
+No.Rats = length(unique(supraTb.LTR));
+No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'chi2', 'No', '-v7.3')
+save(['../results/' outputFileName],...
+    'sBasicStats', 'sStatsTest',...
+    'sBasicStats_MI', 'sStatsTest_MI', 'chi2', 'No', '-v7.3')
 save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
 disp('done')
 

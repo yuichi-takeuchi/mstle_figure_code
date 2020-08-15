@@ -1,48 +1,98 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figure2e()
-% Open or closed-loop septum optogenetic stimulation for kindling-induced 
-% evoked temporal lobe seizures
-% Conducts statistical analyses and bar graph outputs of
-% summarized data in csv (control vs. treatment)
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure2e()
 % Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 figureNo = 2;
-fgNo = 641;
-panel = 'E';
-control = 'Open';
-graphSuffix = 'Hz';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' control 'LoopStim_PooledOnOff.mat'];
+panel = 'e';
+inputFileName = ['Figure' num2str(figureNo) '_Fg641_OpenLoopStim.csv'];
+outputFileName = ['Figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
 supraTb = orgTb(logical(orgTb.Supra),:); % 
-VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
+VarNames = orgTb.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
 
 %% Basic statistics and Statistical tests
 % supra
-[ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.(10) );
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.MSEstm );
+
+%% animal basis stats (independent)
+for i = 1:length(VarNames)
+    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(supraTb.(VarNames{i}), supraTb.LTR, supraTb.MSEstm);
+    [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+    [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( supraTb.(VarNames{i}), supraTb.MSEstm);
+end
 
 %% Figure preparation (non-lebeling)
 % Common labelings 
-CTitle = {'Motor seizure', 'Wet-dog shaking', 'AD duration', 'HPC electrographic seizure', 'Ctx electrographic seizure'};
-CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Duration (s)'};
-outputGraph = [1 1]; % pdf, png
+CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
+CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
 
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Supra' control 'Loop_Pooled' graphSuffix '_'];
-[ flag ] = figsf_BarScatPairedGray1( supraTb, VarNames, sBasicStatsSupra, CTitle, CVLabel, outputGraph, outputFileNameBase);
+close all
+hfig = figure(1);
 for i = 1:length(VarNames)
-    movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
-    movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])
+        
+    % figure parameter settings
+    set(hfig,...
+        'PaperUnits', 'centimeters',...
+        'PaperPosition', [0.5 0.5 14 4],... % [h distance, v distance, width, height], origin: left lower corner
+        'PaperSize', [15 5]... % width, height
+        );
+    
+    % global parameters
+    fontname = 'Arial';
+    fontsize = 5;
+    
+    % axis
+    hax = subplot(1, 3, i);
+    
+    % building a plot
+    [ hs ] = figf_BarMeanIndpndPlot1( supraTb.LTR, supraTb.(VarNames{i}), supraTb.MSEstm + 1, hax );
+ 
+    % setting parametors of bars and plots
+    set(hs.bar, 'EdgeColor',[0 0 0],'LineWidth', 0.5);
+    set(hs.bar(1), 'FaceColor',[1 1 1]);
+    set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+    
+    for j = 1:size(hs.cplt, 2)
+        set(hs.cplt{j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 0]);
+    end
+    
+    set(hs.xlbl, 'String', 'Estim');
+    set(hs.ylbl, 'String', CVLabel{i});
+    set(hs.ttl, 'String', CTitle{i});
+    
+    yl = get(hs.ax, 'YLim');
+    
+    % axis parameter settings
+    set(hs.ax,...
+        'YLim', yl,...
+        'XLim', [0.5 2.5],...
+        'XTick', [1 2],...
+        'XTickLabel', {'Off', 'On'},...
+        'FontName', fontname,...
+        'FontSize', fontsize...
+        );
 end
-clear flag outputFileNameBase; close all
+
+% outputs
+print(['../results/figure' num2str(figureNo) panel '.pdf'], '-dpdf');
+print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
+
+close all
 
 %% Number of rats and trials
-No.supraRats = length(unique(supraTb.LTR));
-No.supraTrials = length(supraTb.LTR);
+No.Rats = length(unique(supraTb.LTR));
+No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
+save(['../results/' outputFileName],...
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_pa',...
+    'sStatsTest_pa',...
+    'No',...
+    '-v7.3')
 disp('done')
 
 end

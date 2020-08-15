@@ -1,6 +1,4 @@
 function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5h()
-% Kindling threshold intensities for after-discharges and secondary
-% generalization with optogenetic interventions
 % Copyright (c) 2018, 2019, 2020 Yuichi Takeuchi
 
 %% params
@@ -47,8 +45,7 @@ fontsize = 5;
 hax = subplot(1, 2, 1);
 [ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, hax );
 
-set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5);
-set(hs.bar, 'FaceColor',[1 1 1]);
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
@@ -74,8 +71,7 @@ set(hs.ax,...
 hax = subplot(1, 2, 2);
 [ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, hax );
 
-set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5);
-set(hs.bar, 'FaceColor',[1 1 1]);
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
