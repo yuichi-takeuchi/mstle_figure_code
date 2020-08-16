@@ -7,14 +7,12 @@ function [No] = figureS2ab()
 supplement = 'S';
 figureNo = 2;
 fgNo = 632;
-panel = 'AB';
+panel = 'ab';
 inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_RSDevelop.csv'];
-outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_RSDevelop'];
+outputFileNameBase = ['figure' supplement num2str(figureNo) panel];
 
 %% Data import
 srcTb = readtable(['../data/' inputFileName]);
-% extTb = srcTb(:,(1:7));
-% VarNames = extTb.Properties.VariableNames; % {x__LTR, Date, ExpNo1, ExpNo2, Num, RS, WDS}
 
 %% Takeing variables
 LTR = srcTb.LTR;
@@ -54,10 +52,8 @@ close all
 hfig = figure(1);
 haxes1 = subplot(1,2,1);
 hold on
-% plot(Number, RScale, 'ko', 'LineWidth', 0.5, 'MarkerSize', 3)
 plot(uniqueNum, animalRS, '-o', 'LineWidth', 0.4, 'MarkerSize', 3)
 plot(uniqueNum, MeanRS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 4)
-% errorbar(uniqueNum, MeanRS, StdRS, '-ok', 'MarkerFaceColor', 'k')
 hold off
 title('Motor seizure');
 xlabel('Cumulative number of stimulation')
@@ -68,10 +64,8 @@ set(gca,...
     )     
 haxes2 = subplot(1,2,2);
 hold on
-% plot(Number, WDS, 'ko', 'LineWidth', 0.5, 'MarkerSize', 3)
 plot(uniqueNum, animalWDS, '-o', 'LineWidth', 0.4, 'MarkerSize', 3)
 plot(uniqueNum, MeanWDS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 3)
-% errorbar(uniqueNum, MeanWDS, StdWDS, '-ok', 'MarkerFaceColor', 'k')
 hold off
 title('Wet-dog shaking')
 xlabel('Cumulative number of stimulation')

@@ -1,12 +1,13 @@
-function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, No] = figure2d()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, No] = figureS10f()
 % Calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 2;
-panel = 'd';
-inputFileName = ['Figure' num2str(figureNo) '_Fg641_OpenLoopStim.csv'];
-outputFileName = ['figure' num2str(figureNo) panel '.mat'];
+supplement = 'S';
+figureNo = 10;
+panel = 'f';
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg624_OpenLoopStim.csv'];
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -15,12 +16,12 @@ VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, C
 
 %% Basic statistics and Statistical tests
 % supra
-[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.MSEstm );
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.Laser );
 
 %% Calculation of parameters (MI)
 % getting parameters (supra)
-HPCOff = supraTb.HPCDrtn(supraTb.MSEstm == false);
-HPCOn  = supraTb.HPCDrtn(supraTb.MSEstm == true);
+HPCOff = supraTb.HPCDrtn(supraTb.Laser == false);
+HPCOn  = supraTb.HPCDrtn(supraTb.Laser == true);
 supraMI = (HPCOn-HPCOff)./(HPCOn+HPCOff);
 
 %% Skewness test
@@ -40,9 +41,8 @@ gmwt = gmdist.ComponentProportion;
 x = linspace(-1, 1, 1000);
 fitdata = pdf(gmdist, x')*gmwt(1)*binWidth;
 
-
 % id of animals
-idVec = supraTb.LTR(supraTb.MSEstm == true);
+idVec = supraTb.LTR(supraTb.Laser == true);
 edges = [-1:binWidth:1];
 close all
 
@@ -86,8 +86,8 @@ set(hs.xlbl, 'String', 'Modulation index');
 set(hs.ttl, 'String', 'MI of HPC seizures');
 
 % outputs
-print(['../results/figure' num2str(figureNo) panel '.pdf'], '-dpdf');
-print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
+print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
+print(['../results/figure' supplement num2str(figureNo) panel '.png'], '-dpng');
 
 close all
 

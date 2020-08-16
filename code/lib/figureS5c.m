@@ -1,10 +1,10 @@
-function [sBasicStats_intrvntn, sStatsTest_intrvntn, sBasicStats_intrvntn_pa,sStatsTest_intrvntn_pa] = figureS5c()
+function [sBasicStats, sStatsTest, sBasicStats_pa,sStatsTest_pa] = figureS5c()
 % Copyright (c) 2020 Yuichi Takeuchi
 %% params
 supplement = 'S';
 figureNo = 5;
-panel = 'C';
-outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
+panel = 's';
+outputFileName = ['sigure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
 % tb_80_0 = readtable('../data/LTR1_80_closed0_resultantVec.csv'); % open-loop
@@ -20,15 +20,15 @@ cndtnVec(dataTb.closed == 1 & dataTb.jitter == 0) = 2;
 cndtnVec(dataTb.closed == 1 & dataTb.jitter == 1) = 3;
 
 %% get basic stats and tests on vector length per trial
-[sBasicStats_intrvntn] = stats_sBasicStats_anova1( dataTb.r, cndtnVec );
-[sStatsTest_intrvntn] = stats_ANOVA1StatsStructs1( dataTb.r, cndtnVec , 'bonferroni');
+[sBasicStats] = stats_sBasicStats_anova1( dataTb.r, cndtnVec );
+[sStatsTest] = stats_ANOVA1StatsStructs1( dataTb.r, cndtnVec , 'bonferroni');
 
 %% get basic stats and tests on vector length per animal
 % [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(dataTb.r, dataTb.LTR, cndtnVec);
 [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(dataTb.r, dataTb.LTR, cndtnVec);
 % [sBasicStats_intrvntn_pa] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
-[sBasicStats_intrvntn_pa] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
-[sStatsTest_intrvntn_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, intrvntnVec, 'bonferroni');
+[sBasicStats_pa] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+[sStatsTest_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, intrvntnVec, 'bonferroni');
 
 %% graph 
 close all
@@ -75,10 +75,10 @@ close all
 
 %% Save
 save(['../results/' outputFileName],...
-    'sBasicStats_intrvntn',...
-    'sStatsTest_intrvntn',...
-    'sBasicStats_intrvntn_pa',...
-    'sStatsTest_intrvntn_pa')
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_pa',...
+    'sStatsTest_pa')
 disp('done')
 
 end

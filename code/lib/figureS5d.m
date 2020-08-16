@@ -1,12 +1,11 @@
-function [sBasicStats_offset, sStatsTest_offset,...
-          sBasicStats_offset_pa, sStatsTest_offset_pa] = figureS5d()
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa] = figureS5d()
 % Copyright (c) 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
 figureNo = 5;
-panel = 'D';
-outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
+panel = 'd';
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
 tb_80_1 = readtable('../data/LTR1_80_closed1_resultantVec.csv'); % closed-loop
@@ -16,14 +15,14 @@ tb_99_100_1 = readtable('../data/LTR1_99_100_closed1_resultantVec.csv'); % close
 tb_stack = [tb_80_1;tb_99_100_1];
 tb_clsd = tb_stack(tb_stack.jitter ~= 1, :);
 
-[sBasicStats_offset] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.offset );
-[sStatsTest_offset] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.offset , 'bonferroni');
+[sBasicStats] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.offset );
+[sStatsTest] = stats_ANOVA1StatsStructs1( tb_clsd.r, tb_clsd.offset , 'bonferroni');
 
 %% get basic stats and tests on vector length per animal
 [MeanPerAnimal, ~, offsetVec] = statsf_meanPer1With2(tb_clsd.r, tb_clsd.LTR, tb_clsd.offset);
 
-[sBasicStats_offset_pa] = stats_sBasicStats_anova1( MeanPerAnimal, offsetVec );
-[sStatsTest_offset_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, offsetVec, 'bonferroni');
+[sBasicStats_pa] = stats_sBasicStats_anova1( MeanPerAnimal, offsetVec );
+[sStatsTest_pa] = stats_ANOVA1StatsStructs1( MeanPerAnimal, offsetVec, 'bonferroni');
 
 %% graph 
 cndtnVec = zeros(size(tb_clsd.LTR));
@@ -75,10 +74,10 @@ close all
 
 %% Save
 save(['../results/' outputFileName], ...
-    'sBasicStats_offset',...
-    'sStatsTest_offset',...
-    'sBasicStats_offset_pa',...
-    'sStatsTest_offset_pa'... 
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_pa',...
+    'sStatsTest_pa'... 
     )
 disp('done')
 

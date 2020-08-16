@@ -4,8 +4,8 @@ function figureS6e()
 %% params
 supplement = 'S';
 figureNo = 6;
-panel = 'E';
-outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
+panel = 'e';
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
 load('../data/LTR1_82_83_closed1_instPhases.mat')

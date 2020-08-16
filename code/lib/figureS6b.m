@@ -4,8 +4,8 @@ function [No] = figureS6b()
 %% params
 supplement = 'S';
 figureNo = 6;
-panel = 'B';
-outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
+panel = 'b';
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
 tb_82_83_0 = readtable('../data/LTR1_82_83_closed0_resultantVec.csv'); % open-loop

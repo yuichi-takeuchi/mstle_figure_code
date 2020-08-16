@@ -5,7 +5,7 @@ function figureS5a()
 supplement = 'S';
 figureNo = 5;
 panel = 'A';
-outputFileName = ['Figure' supplement num2str(figureNo) panel '.mat'];
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
 load('../data/LTR1_99_100_closed0_instPhases.mat')
