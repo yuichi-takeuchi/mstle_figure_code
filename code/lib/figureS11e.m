@@ -1,17 +1,20 @@
-function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS16e()
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS11e()
 % Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 16;
+figureNo = 11;
 panel = 'e';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg603_OpenLoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg624_ClosedLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
-%% Data import 
+%% Data import 1
 orgTb = readtable(['../data/' inputFileName]); % original csv data
 supraTb = orgTb(logical(orgTb.Supra),:); % 
 VarNames = orgTb.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
+
+%% Data import 2
+supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
 
 %% Basic statistics and Statistical tests
 % supra
@@ -48,13 +51,14 @@ for i = 1:length(VarNames)
     hax = subplot(1, 3, i);
     
     % building a plot
-    [ hs ] = figf_BarMeanIndpndPlot1( supraTb.LTR, supraTb.(VarNames{i}), supraTb.Laser + 1, hax );
+    [ hs ] = figf_BarMeanIndpndPlot2( supraTb.LTR, supraTb.(VarNames{i}), supraTb.Laser + 1, supraTbTh.Thresholded + 1, hax );
  
     % setting parametors of bars and plots
     set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
     
     for j = 1:size(hs.cplt, 2)
-        set(hs.cplt{j}, 'LineWidth', 0.5, 'MarkerSize', 4); % 'Color', [0 0 0]
+        set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 0]);
+        set(hs.cplt{2,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 1]);
     end
     
     set(hs.xlbl, 'String', 'Laser');
