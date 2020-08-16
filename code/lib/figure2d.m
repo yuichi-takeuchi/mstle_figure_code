@@ -1,4 +1,4 @@
-function [sBasicStatsSupra, sStatsTestSupra, sBasicStatsSupraMI, sStatsTestSupraMI, No] = figure2d()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, No] = figure2d()
 % Calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
@@ -8,7 +8,7 @@ fgNo = 641;
 panel = 'd';
 control = 'Open';
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_OpenLoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '.mat'];
+outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -17,7 +17,7 @@ VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, C
 
 %% Basic statistics and Statistical tests
 % supra
-[ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.MSEstm );
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.MSEstm );
 
 %% Calculation of parameters (MI)
 % getting parameters (supra)
@@ -28,7 +28,7 @@ supraMI = (HPCOn-HPCOff)./(HPCOn+HPCOff);
 %% Skewness test
 supraMIpos = supraMI(supraMI >= 0);
 supraMIneg = supraMI(supraMI <= 0);
-[ sBasicStatsSupraMI, sStatsTestSupraMI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
+[ sBasicStats_MI, sStatsTest_MI ] = statsf_getBasicStatsAndTestStructs2( supraMIpos, abs(supraMIneg) );
 
 %% Figure preparation of MI with curve fitting with one Gaussian component
 % fitting
@@ -94,11 +94,11 @@ print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
 close all
 
 %% Number of rats and trials
-No.supraRats = length(unique(supraTb.LTR));
-No.supraTrials = length(supraTb.LTR);
+No.Rats = length(unique(supraTb.LTR));
+No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'sBasicStatsSupraMI', 'sStatsTestSupraMI', 'No', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'No', '-v7.3')
 disp('done')
 
 end

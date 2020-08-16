@@ -8,7 +8,7 @@ panel1 = 'e';
 panel2 = 'g';
 control = 'Closed';
 inputFileName = ['Figure' num2str(figureNo) '_Fg641_ClosedLoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '.mat'];
+outputFileName = ['figure' num2str(figureNo) panel1 panel2 '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -170,7 +170,7 @@ outputGraph = [1 1]; % pdf, png
 colorMat = [0 0 0];
 CHLabel = 'MS stimulation delay (ms)';
 
-outputFileNameBase = ['Figure' num2str(figureNo) panel2];
+outputFileNameBase = ['figure' num2str(figureNo) panel2];
 [ flag ] = figset_Plot1( unqcond, percThrshlded, CTitle, CVLabel, CHLabel, colorMat, outputGraph, outputFileNameBase);
 movefile([outputFileNameBase '.pdf'], ['../results/' outputFileNameBase '.pdf'])
 movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])

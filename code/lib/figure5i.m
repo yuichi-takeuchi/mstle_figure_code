@@ -1,6 +1,4 @@
 function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5i()
-% Kindling threshold intensities for after-discharges and secondary
-% generalization with optogenetic interventions
 % Copyright (c) 2018, 2019, 2020 Yuichi Takeuchi
 
 %% params
@@ -8,7 +6,7 @@ figureNo = 5;
 fgNo = 603;
 panel = 'I';
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_ThresIntensity.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_ThresIntensity.mat'];
+outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
 srcTb = readtable(['../data/' inputFileName]); % original csv data
@@ -104,8 +102,8 @@ print('../results/figure5i.png', '-dpng');
 close all
 
 %% Number of rats and trials
-No.subRats = length(unique(dataTb.LTR));
-No.subTrials = length(dataTb.LTR);
+No.Rats = length(unique(dataTb.LTR));
+No.Trials = length(dataTb.LTR);
 
 %% Save
 save(['../results/' outputFileName],...

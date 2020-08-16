@@ -8,12 +8,13 @@ panel1 = 'f';
 panel2 = 'h';
 gThreshold = 0.5;
 inputFileName = ['Figure' num2str(figureNo) '_Fg641_OpenLoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '.mat'];
+outputFileName = ['figure' num2str(figureNo) panel1 panel2 '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
 subTb = orgTb(~logical(orgTb.Supra),:); % 
 VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
+condVec = unique(orgTb.MSEStmHz);
 
 %% Basic statistics and Statistical tests
 % sub
@@ -146,8 +147,8 @@ movefile([outputFileNameBase '.png'], ['../results/' outputFileNameBase '.png'])
 clear flag; close all
 
 %% Number of rats and trials
-No.subRats = length(unique(subTb.LTR));
-No.subTrials = length(subTb.LTR);
+No.Rats = length(unique(subTb.LTR));
+No.Trials = length(subTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'chi2', 'No', '-v7.3')

@@ -6,7 +6,7 @@ figureNo = 3;
 panel = 'h';
 control = 'Closed';
 inputFileName = ['Figure' num2str(figureNo) '_Fg641_ClosedLoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '.mat'];
+outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import 1
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -32,8 +32,8 @@ hfig = figure(1);
 % figure parameter settings
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 11 4],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [12 5]... % width, height
+    'PaperPosition', [0.5 0.5 10 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [11 5]... % width, height
     );
 
 % global parameters
@@ -53,9 +53,9 @@ hold(hax1, 'off')
 
 % setting parametors of bars and plots
 set(herrbr1, 'LineWidth', 0.75, 'MarkerSize', 4, 'YNegativeDelta',[]);
-set(herrbr1(1), 'LineStyle', '-', 'Color', [0 0 0],'DisplayName', 'Ctx seizure: Off');
-set(herrbr1(2), 'LineStyle', '--', 'Color', [0 0 0], 'DisplayName', 'Ctx seizure: On non-success');
-set(herrbr1(3), 'LineStyle', '--', 'Color', [0 0 1], 'DisplayName', 'Ctx seizure: On success');
+set(herrbr1(1), 'LineStyle', '-', 'Color', [0 0 0],'DisplayName', 'Ctx, Off');
+set(herrbr1(2), 'LineStyle', '--', 'Color', [0 0 0], 'DisplayName', 'Ctx, On non-success');
+set(herrbr1(3), 'LineStyle', '--', 'Color', [0 0 1], 'DisplayName', 'Ctx, On success');
 
 hlgnd1 = legend([herrbr1(1), herrbr1(2), herrbr1(3)],...
     'Box', 'Off', 'Location', 'northeastoutside');
@@ -87,9 +87,9 @@ hold(hax2, 'off')
 
 % setting parametors of bars and plots
 set(herrbr2, 'LineWidth', 0.75, 'MarkerSize', 4, 'YNegativeDelta',[]);
-set(herrbr2(1), 'LineStyle', '-', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS: Off'); 
-set(herrbr2(2), 'LineStyle', '--', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS: On non-success');
-set(herrbr2(3), 'LineStyle', '--', 'Color', [0 0 1], 'MarkerFaceColor', [0 0 1], 'DisplayName', 'RS: On success');
+set(herrbr2(1), 'LineStyle', '-', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS, Off'); 
+set(herrbr2(2), 'LineStyle', '--', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS, On, non-success');
+set(herrbr2(3), 'LineStyle', '--', 'Color', [0 0 1], 'MarkerFaceColor', [0 0 1], 'DisplayName', 'RS, On, success');
 
 hylbl2 = ylabel('Racine''s scale');
 
@@ -105,33 +105,14 @@ set(hax2,...
 print(['../results/figure' num2str(figureNo) panel '.pdf'], '-dpdf');
 print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
 
-% close all
-
-%%
-% Legned
-CLegend = {'Off';'On non-success'; 'On success'};
-colorMat = [0 0 0; 0 0 0; 0 0 1]; % RGB
-% Common labelings for graphs
-CTitle = {'Motor seizure', 'Wet-dog shaking', 'AD duration', 'HPC electrographic seizure', 'Ctx electrographic seizure'};
-CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Duration (s)'};
-outputGraph = [1 1]; % pdf, png
-
-% supra
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Supra' control 'Loop_3ANOVA_']; 
-sBasicStats = sBasicStats;
-[ flag ] = figsf_3ANOVAColorMat1( sBasicStats, dataVarNames, condVec, 1, CTitle, CVLabel, CLegend, colorMat, outputGraph, outputFileNameBase);
-for i = 1:length(dataVarNames)
-    movefile([outputFileNameBase dataVarNames{i} '.pdf'], ['../results/' outputFileNameBase dataVarNames{i} '.pdf'])
-    movefile([outputFileNameBase dataVarNames{i} '.png'], ['../results/' outputFileNameBase dataVarNames{i} '.png'])
-end
 close all
 
 %% Number of rats and trials
-No.supraRats = length(unique(supraTb.LTR));
-No.supraTrials = length(supraTb.LTR);
+No.Rats = length(unique(supraTb.LTR));
+No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'No', '-v7.3')
 disp('done')
 
 end

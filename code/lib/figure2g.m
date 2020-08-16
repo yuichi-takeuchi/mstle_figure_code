@@ -5,7 +5,7 @@ function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure2g
 figureNo = 2;
 panel = 'g';
 inputFileName = ['Figure' num2str(figureNo) '_Fg641_OpenLoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '.mat'];
+outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import 1
 orgTb = readtable(['../data/' inputFileName]); % original csv data

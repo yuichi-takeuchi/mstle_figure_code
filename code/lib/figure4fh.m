@@ -7,7 +7,7 @@ figureNo = 4;
 panel1 = 'f';
 panel2 = 'h';
 inputFileName = ['Figure' num2str(figureNo) '_Fg603_ClosedLoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel1 panel2 '.mat'];
+outputFileName = ['figure' num2str(figureNo) panel1 panel2 '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data

@@ -6,7 +6,7 @@ figureNo = 5;
 fgNo = 602;
 panel = 'H';
 inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_ThresIntensity.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_ThresIntensity.mat'];
+outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
 srcTb = readtable(['../data/' inputFileName]); % original csv data
@@ -100,8 +100,8 @@ print('../results/figure5h.png', '-dpng');
 close all
 
 %% Number of rats and trials
-No.subRats = length(unique(dataTb.LTR));
-No.subTrials = length(dataTb.LTR);
+No.Rats = length(unique(dataTb.LTR));
+No.Trials = length(dataTb.LTR);
 
 %% Save
 save(['../results/' outputFileName],...

@@ -1,17 +1,12 @@
 function [sBasicStats, sStatsTest, pkstest2, No] = figure7b_sub()
-% This script prepare cumulative distribution analysis, statistics of
-% dulation of HPC electrographic seizure
-% summarized data in csv (control vs. treatment)
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 7;
-fgNo = 641;
-panel = 'B';
+panel = 'b';
 subpanel = 'sub';
-control = 'Open';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' num2str(figureNo) panel '_' subpanel '_HPCDistribution.mat'];
+inputFileName = 'Figure2_Fg641_OpenLoopStim.csv';
+outputFileName = ['figure' num2str(figureNo) panel '_' subpanel '.mat'];
 
 %% Data import
 orgTb = readtable(['../data/' inputFileName]); % original csv data
@@ -37,10 +32,10 @@ CLeg = {'Off', 'On'};
 outputGraph = [1 1]; % pdf, png
 
 colorMat = [1 1 1; 1 0 0]; % sub
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Sub' control 'Loop_Dist_'];
+outputFileNameBase = ['figure' num2str(figureNo) panel '_' subpanel '_hist'];
 [ flag ] = figsf_HistogramPairedColored2( subTb, VarNames(4), CTitle, CVLabel, CHLabel, CLeg, colorMat, outputGraph, outputFileNameBase);
-movefile([outputFileNameBase VarNames{4} '.pdf'], ['../results/' outputFileNameBase VarNames{4} '.pdf'])
-movefile([outputFileNameBase VarNames{4} '.png'], ['../results/' outputFileNameBase VarNames{4} '.png'])
+movefile([outputFileNameBase VarNames{4} '.pdf'], ['../results/' outputFileNameBase '.pdf'])
+movefile([outputFileNameBase VarNames{4} '.png'], ['../results/' outputFileNameBase '.png'])
 close all
 
 %% Cumurative cureve calculation
@@ -65,15 +60,15 @@ CLeg = {'Off', 'On'};
 outputGraph = [1 1]; % pdf, png
 
 colorMat = [0 0 0; 1 0 0]; % sub
-outputFileNameBase = ['Figure' num2str(figureNo) panel '_Sub' control 'Loop_CumProb_'];
+outputFileNameBase = ['figure' num2str(figureNo) panel '_' subpanel '_cumProb'];
 [ flag ] = figsf_PlotPairedColored1( edgesX, cumsumSub, VarNames(4), CTitle, CVLabel, CHLabel, CLeg, colorMat, outputGraph, outputFileNameBase);
-movefile([outputFileNameBase VarNames{4} '.pdf'], ['../results/' outputFileNameBase VarNames{4} '.pdf'])
-movefile([outputFileNameBase VarNames{4} '.png'], ['../results/' outputFileNameBase VarNames{4} '.png'])
+movefile([outputFileNameBase VarNames{4} '.pdf'], ['../results/' outputFileNameBase '.pdf'])
+movefile([outputFileNameBase VarNames{4} '.png'], ['../results/' outputFileNameBase '.png'])
 close all
 
 %% Number of rats and trials
-No.subRats = length(unique(subTb.LTR));
-No.subTrials = length(subTb.LTR);
+No.Rats = length(unique(subTb.LTR));
+No.Trials = length(subTb.LTR);
 
 %% Save
 save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'pkstest2', 'No', '-v7.3')
