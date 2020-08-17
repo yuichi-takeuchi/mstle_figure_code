@@ -6,7 +6,6 @@ function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, chi2] = figure
 figureNo = 3;
 panel1 = 'e';
 panel2 = 'g';
-control = 'Closed';
 inputFileName = ['Figure' num2str(figureNo) '_Fg641_ClosedLoopStim.csv'];
 outputFileName = ['figure' num2str(figureNo) panel1 panel2 '.mat'];
 
@@ -184,7 +183,7 @@ No.Trials = length(supraTb.LTR);
 save(['../results/' outputFileName],...
     'sBasicStats', 'sStatsTest',...
     'sBasicStats_MI', 'sStatsTest_MI', 'chi2', 'No', '-v7.3')
-save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+% save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
 disp('done')
 
 end 
