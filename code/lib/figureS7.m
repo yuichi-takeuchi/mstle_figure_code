@@ -30,23 +30,6 @@ MIneg = MI(MI <= 0);
 
 %% Figure preparation
 % id of animals
-switch colorId
-    case 1
-        colorVec = [0 0.4470 0.7410];
-    case 2
-        colorVec = [0.8500 0.3250 0.0980];
-    case 3
-        colorVec = [0.9290 0.6940 0.1250];
-    case 4
-        colorVec = [0.4940 0.1840 0.5560];
-    case 5 
-        colorVec = [0.4660 0.6740 0.1880];
-    case 6
-        colorVec = [0.3010 0.7450 0.9330];
-    case 7
-        colorVec = [0.6350 0.0780 0.1840];
-    otherwise
-end
 
 close all
 hfig = figure(1);
@@ -71,7 +54,7 @@ box('off')
 set(hst,...
     'BinEdges', -1:0.1:1,...
     'Normalization', 'probability',...
-    'FaceColor', colorVec...
+    'FaceColor', defaultColor(colorId)...
     );
 
 hylbl = ylabel('Probability');
@@ -101,7 +84,7 @@ for i = 1:3
     xmat = reshape(xpi, 2, []);
     ymat = reshape(Tb.(VarNames{i}), 2, []);
     hplt = plot(hax, xmat, ymat, '--o');
-    set(hplt, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', colorVec);
+    set(hplt, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', defaultColor(colorId));
     
     hxlbl = xlabel('Estim');
     hylbl = ylabel(CVLabel{i});
