@@ -57,14 +57,14 @@ hold off
 set(h_fake,'Visible','off');
 htt(1)  = title('open-loop');
 
-set(hcmpss_0_1, 'LineWidth', 1, 'Color', [1 0 1]);
-set(hcmpss_0_2, 'LineWidth', 1, 'Color', [0 1 0]);
-set(hcmpss_0_3, 'LineWidth', 1, 'Color', [0 1 1]);
-set(hcmpss_0_4, 'LineWidth', 1, 'Color', [1 0 0]);
-set(hcmpss_0_m_1, 'LineWidth', 3, 'Color', [0.3 0 0.3]);
-set(hcmpss_0_m_2, 'LineWidth', 3, 'Color', [0 0.3 0]);
-set(hcmpss_0_m_3, 'LineWidth', 3, 'Color', [0 0.3 0.3]);
-set(hcmpss_0_m_4, 'LineWidth', 3, 'Color', [0.3 0 0]);
+set(hcmpss_0_1, 'LineWidth', 0.3, 'Color', defaultColor(1));
+set(hcmpss_0_2, 'LineWidth', 0.3, 'Color', defaultColor(2));
+set(hcmpss_0_3, 'LineWidth', 0.3, 'Color', defaultColor(3));
+set(hcmpss_0_4, 'LineWidth', 0.3, 'Color', defaultColor(4));
+set(hcmpss_0_m_1, 'LineWidth', 2, 'Color', defaultColor(1)*0.5);
+set(hcmpss_0_m_2, 'LineWidth', 2, 'Color', defaultColor(2)*0.5);
+set(hcmpss_0_m_3, 'LineWidth', 2, 'Color', defaultColor(3)*0.5);
+set(hcmpss_0_m_4, 'LineWidth', 2, 'Color', defaultColor(4)*0.5);
 
 % right part (closed-loop)
 hax(2) = subplot(1, 2, 2);
@@ -85,14 +85,14 @@ hold off
 set(h_fake,'Visible','off');
 htt(2)  = title('closed-loop');
 
-set(hcmpss_1_1, 'LineWidth', 1, 'Color', [1 0 1]);
-set(hcmpss_1_2, 'LineWidth', 1, 'Color', [0 1 0]);
-set(hcmpss_1_3, 'LineWidth', 1, 'Color', [0 1 1]);
-set(hcmpss_1_4, 'LineWidth', 1, 'Color', [1 0 0]);
-set(hcmpss_1_m_1, 'LineWidth', 3, 'Color', [0.3 0 0.3]);
-set(hcmpss_1_m_2, 'LineWidth', 3, 'Color', [0 0.3 0]);
-set(hcmpss_1_m_3, 'LineWidth', 3, 'Color', [0 0.3 0.3]);
-set(hcmpss_1_m_4, 'LineWidth', 3, 'Color', [0.3 0 0]);
+set(hcmpss_1_1, 'LineWidth', 0.3, 'Color', defaultColor(1));
+set(hcmpss_1_2, 'LineWidth', 0.3, 'Color', defaultColor(2));
+set(hcmpss_1_3, 'LineWidth', 0.3, 'Color', defaultColor(3));
+set(hcmpss_1_4, 'LineWidth', 0.3, 'Color', defaultColor(4));
+set(hcmpss_1_m_1, 'LineWidth', 2, 'Color', defaultColor(1)*0.5);
+set(hcmpss_1_m_2, 'LineWidth', 2, 'Color', defaultColor(2)*0.5);
+set(hcmpss_1_m_3, 'LineWidth', 2, 'Color', defaultColor(3)*0.5);
+set(hcmpss_1_m_4, 'LineWidth', 2, 'Color', defaultColor(4)*0.5);
 
 fontname = 'Arial';
 fontsize = 8;
