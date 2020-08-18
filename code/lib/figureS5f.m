@@ -1,5 +1,4 @@
-function [sBasicStats, sStatsTest,...
-          sBasicStats_pa, sStatsTest_pa] = figureS5f()
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa] = figureS5f()
 % Copyright (c) 2020 Yuichi Takeuchi
 
 %% params
@@ -11,9 +10,11 @@ outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 %% data import
 tb_80_1 = readtable('../data/LTR1_80_closed1_resultantVec.csv'); % closed-loop
 tb_99_100_1 = readtable('../data/LTR1_99_100_closed1_resultantVec.csv'); % closed-loop
+tb_127_128_1 = readtable('../data/LTR1_127_128_closed1_resultantVec.csv'); % closed-loop
+tb_129_130_1 = readtable('../data/LTR1_129_130_closed1_resultantVec.csv'); % closed-loop
 
 %% get basic stats and tests on vector length per trial
-tb_stack = [tb_80_1;tb_99_100_1];
+tb_stack = [tb_99_100_1; tb_127_128_1; tb_129_130_1; tb_80_1];
 tb_clsd = tb_stack(tb_stack.jitter ~= 1, :);
 
 [sBasicStats] = stats_sBasicStats_anova1( tb_clsd.r, tb_clsd.delay );

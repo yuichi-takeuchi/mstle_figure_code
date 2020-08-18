@@ -11,9 +11,13 @@ outputFileName = ['sigure' supplement num2str(figureNo) panel '.mat'];
 tb_80_1 = readtable('../data/LTR1_80_closed1_resultantVec.csv'); % closed-loop
 tb_99_100_0 = readtable('../data/LTR1_99_100_closed0_resultantVec.csv'); % open-loop
 tb_99_100_1 = readtable('../data/LTR1_99_100_closed1_resultantVec.csv'); % closed-loop
+tb_127_128_0 = readtable('../data/LTR1_127_128_closed0_resultantVec.csv'); % open-loop
+tb_127_128_1 = readtable('../data/LTR1_127_128_closed1_resultantVec.csv'); % closed-loop
+tb_129_130_0 = readtable('../data/LTR1_129_130_closed0_resultantVec.csv'); % open-loop
+tb_129_130_1 = readtable('../data/LTR1_129_130_closed1_resultantVec.csv'); % closed-loop
 
 %% data reorganization
-dataTb = [tb_80_1; tb_99_100_0; tb_99_100_1];
+dataTb = [tb_99_100_0; tb_99_100_1; tb_127_128_0; tb_127_128_1; tb_129_130_0; tb_129_130_1;tb_80_1];
 cndtnVec = zeros(size(dataTb.LTR));
 cndtnVec(dataTb.closed == 0) = 1;
 cndtnVec(dataTb.closed == 1 & dataTb.jitter == 0) = 2;
