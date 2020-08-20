@@ -50,10 +50,10 @@ for i = 1:length(VarNames)
     hax = subplot(1, 3, i);
     
     % building a plot
-    [ hs ] = figf_BarMeanIndpndPlot2( supraTb.LTR, supraTb.(VarNames{i}), supraTb.Laser + 1, supraTbTh.Thresholded + 1, hax );
+    [ hs ] = figf_BarMeanIndpndPlot2( supraTb.LTR, supraTb.(VarNames{i}), supraTb.Laser + 1, supraTbTh.Thresholded + 1, 0.3, hax );
  
     % setting parametors of bars and plots
-    set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
+    set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0], 'LineWidth', 0.5, 'BarWidth', 0.5);
     
     for j = 1:size(hs.cplt, 2)
         set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 0]);

@@ -50,15 +50,15 @@ for i = 1:length(VarNames)
     hax = subplot(1, 3, i);
     
     % building a plot
-    [ hs ] = figf_BarMeanIndpndPlot2( subTb.LTR, subTb.(VarNames{i}), subTb.MSEstm + 1, subTbTh.Thresholded + 1, hax );
+    [ hs ] = figf_BarMeanIndpndPlot2( subTb.LTR, subTb.(VarNames{i}), subTb.MSEstm + 1, subTbTh.Thresholded + 1, 0.4, hax );
  
     % setting parametors of bars and plots
-    set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5);
+    set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', 0.6);
     set(hs.bar(1), 'FaceColor',[1 1 1]);
     set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
     
     for j = 1:size(hs.cplt, 2)
-        set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 0]);
+        set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0.2 0.2 0.2]);
         set(hs.cplt{2,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [1 0 0]);
     end
     

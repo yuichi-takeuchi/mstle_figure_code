@@ -31,8 +31,8 @@ hfig = figure(1);
 % figure parameter settings
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 10 4],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [11 5]... % width, height
+    'PaperPosition', [0.5 0.5 11 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [12 5]... % width, height
     );
 
 % global parameters

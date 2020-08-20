@@ -3,9 +3,8 @@ function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5h
 
 %% params
 figureNo = 5;
-fgNo = 602;
-panel = 'H';
-inputFileName = ['Figure' num2str(figureNo) '_Fg' num2str(fgNo) '_ThresIntensity.csv'];
+panel = 'h';
+inputFileName = ['Figure' num2str(figureNo) '_Fg602_ThresIntensity.csv'];
 outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
@@ -26,6 +25,9 @@ end
 %% Figure preparation
 % params
 cndtnVec = dataTb.Laser + 1;
+randCoeff = 0.4;
+barWidth = 0.5;
+
 
 close all
 hfig = figure(1);
@@ -43,9 +45,9 @@ fontsize = 5;
 
 % left part (after discharge)
 hax = subplot(1, 2, 1);
-[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, hax );
+[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, randCoeff, hax );
 
-set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
@@ -69,9 +71,9 @@ set(hs.ax,...
 
 % right panel (generalization discharge)
 hax = subplot(1, 2, 2);
-[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, hax );
+[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, randCoeff, hax );
 
-set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5);
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
@@ -94,8 +96,8 @@ set(hs.ax,...
     );
 
 % outputs
-print('../results/figure5h.pdf', '-dpdf');
-print('../results/figure5h.png', '-dpng');
+print(['../results/figure5' panel '.pdf'], '-dpdf');
+print(['../results/figure5' panel '.png'], '-dpng');
 
 close all
 

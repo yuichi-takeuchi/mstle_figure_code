@@ -1,4 +1,4 @@
-function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, chi2] = figure2fh()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, percThrshlded, chi2] = figure2fh()
 % Calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
@@ -65,6 +65,7 @@ set(hfig,...
 
 % axis parameter settings
 set(hs.ax,...
+    'YLim', [0 0.55],...
     'FontName', fontname,...
     'FontSize', fontsize...
     );
@@ -86,10 +87,8 @@ yLimits = get(gca,'YLim');
 % hl = line(gca, [x(indForSeparation) x(indForSeparation)], yLimits);
 hl = line(gca, [threshold threshold], yLimits);
 
-set(hl,...
-    'LineStyle', ':',...
-    'LineWidth', 1,...
-    'Color', [0 0 0]);
+set(hl, 'LineStyle', ':', 'LineWidth', 1, 'Color', [0 0 0]);
+
 
 % outputs
 print(['../results/figure' num2str(figureNo) panel1 '.pdf'], '-dpdf');
@@ -151,8 +150,7 @@ No.Rats = length(unique(subTb.LTR));
 No.Trials = length(subTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'chi2', 'No', '-v7.3')
-% save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'percThrshlded', 'chi2', 'No', '-v7.3')
 disp('done')
 
 end

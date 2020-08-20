@@ -24,8 +24,8 @@ fontsize = 5;
 % figure parameter settings
 set(hs.hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 6 4],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [7 5]... % width, height
+    'PaperPosition', [0.5 0.5 7 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [8 5]... % width, height
     );
 
 xlm = get(hs.hax,'XLim');
