@@ -1,4 +1,4 @@
-function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, chi2] = figure3eg()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, percThrshlded, chi2] = figure3eg()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
@@ -86,7 +86,8 @@ end
 
 % fitting curve parameter settings
 set(hs.plt{1},...
-    'Color', [0 0 0]...
+    'LineWidth', 1,...
+    'Color', [0.2 0.2 0.2]...
     );
 
 set(hs.plt{2},...
@@ -182,8 +183,7 @@ No.Trials = length(supraTb.LTR);
 %% Save
 save(['../results/' outputFileName],...
     'sBasicStats', 'sStatsTest',...
-    'sBasicStats_MI', 'sStatsTest_MI', 'chi2', 'No', '-v7.3')
-% save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+    'sBasicStats_MI', 'sStatsTest_MI', 'percThrshlded', 'chi2', 'No', '-v7.3')
 disp('done')
 
 end 
