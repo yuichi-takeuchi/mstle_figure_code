@@ -56,7 +56,7 @@ for i = 1:length(VarNames)
     set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0], 'LineWidth', 0.5, 'BarWidth', 0.5);
     
     for j = 1:size(hs.cplt, 2)
-        set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 0]);
+        set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0.2 0.2 0.2]);
         set(hs.cplt{2,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 0 1]);
     end
     
