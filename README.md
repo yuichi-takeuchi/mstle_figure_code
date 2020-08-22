@@ -6,6 +6,7 @@ This repository includes raw data with MATLAB codes to regenerate main and suppl
 ### Prerequisites
 - [MATLAB](https://www.mathworks.com/products/matlab.html)
 - [MatlabUtils](https://github.com/yuichi-takeuchi/MatlabUtils)
+- [logshadedErrorBar](https://github.com/liqun2017/logshadedErrorBar)
 
 The codes have been tested with MATLAB ver 9.5 (R2018b) with the following toolboxes:
 - Curve Fitting Toolbox
@@ -19,6 +20,7 @@ The codes have been tested with MATLAB ver 9.5 (R2018b) with the following toolb
 ### Installing
 1. Install MATLAB.
 2. Clone [MatlabUtils](https://github.com/yuichi-takeuchi/MatlabUtils) in the \code\lib directory as a submodule.
+3. Clone [logshadedErrorBar](https://github.com/liqun2017/logshadedErrorBar) in the \code\helper directory as a submodule.
 
 ### How to use
 1. Launch main functions for respective figures in the \code directory.
