@@ -5,7 +5,7 @@
 clc
 clear
 %loadcate pwrspctrm first
-load('../data/Powerall.mat')
+load('../data/FigureS8_Powerall.mat')
 %%
 xtick = [1,4,13,30,50,90,150];
 nch = numel(chname);
@@ -52,7 +52,7 @@ for i = 1:nch
     'PaperSize', [10 7],...
     'paperposition', [0 0 10 7],...
     'renderer','painters')
-    print(gcf,'-dpdf',strcat(['../results/ch-' num2str(i) '-' chname{i}]));
+    print(gcf,'-dpdf',strcat(['../results/FigureS8_ch-' num2str(i) '-' chname{i}]));
     close gcf
 end
 disp('finished')
@@ -124,7 +124,7 @@ for i = 1:nch
     'PaperSize', [10 7],...
     'paperposition', [0 0 10 7],...
     'renderer','painters')
-    print(gcf,'-dpdf',strcat(['../results/Band-ch-' num2str(i) '-' chname{i}]));
+    print(gcf,'-dpdf',strcat(['../results/FigureS8_Band-ch-' num2str(i) '-' chname{i}]));
     close gcf
 end
 clear i j X Y1 hfig  hb xf yf1 yf2 xstar star s xlim ylim errhigh
