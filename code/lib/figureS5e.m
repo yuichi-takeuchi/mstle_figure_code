@@ -4,7 +4,7 @@ function figureS5e()
 %% params
 supplement = 'S';
 figureNo = 5;
-panel = 'E';
+panel = 'e';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import

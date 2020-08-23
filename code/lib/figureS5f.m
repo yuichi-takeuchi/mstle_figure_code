@@ -4,7 +4,7 @@ function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa] = figureS5f()
 %% params
 supplement = 'S';
 figureNo = 5;
-panel = 'F';
+panel = 'f';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import

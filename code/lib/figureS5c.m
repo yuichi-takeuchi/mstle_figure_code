@@ -3,8 +3,8 @@ function [sBasicStats, sStatsTest, sBasicStats_pa,sStatsTest_pa] = figureS5c()
 %% params
 supplement = 'S';
 figureNo = 5;
-panel = 's';
-outputFileName = ['sigure' supplement num2str(figureNo) panel '.mat'];
+panel = 'c';
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% data import
 % tb_80_0 = readtable('../data/LTR1_80_closed0_resultantVec.csv'); % open-loop
