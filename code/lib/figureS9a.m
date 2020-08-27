@@ -68,7 +68,7 @@ g = [gnsccss_20; gsccss_20; gnsccss_60; gsccss_60];
 
 hbox = boxplot(hax,x,g, 'Color', 'kb');
 box('off')
-hylbl1 = ylabel('r length');
+hylbl1 = ylabel('Phase-locking strength (r)');
 hxlbl = xlabel('Time after seizure onset (s)');
 
 httl = title('Length of resultant vector');
@@ -80,7 +80,7 @@ set(hax,...
     'FontSize', 5 ...
     );
 
-hlgnd = legend(findall(hax, 'Tag', 'Box'), {'non-success', 'success'}, 'location', 'northeastoutside', 'box', 'off');
+hlgnd = legend(findall(hax, 'Tag', 'Box'), {'success', 'non-success'}, 'location', 'northeastoutside', 'box', 'off');
 
 print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
 print(['../results/figure' supplement num2str(figureNo) panel '.png'], '-dpng');

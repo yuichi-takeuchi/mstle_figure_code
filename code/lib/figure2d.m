@@ -40,7 +40,6 @@ gmwt = gmdist.ComponentProportion;
 x = linspace(-1, 1, 1000);
 fitdata = pdf(gmdist, x')*gmwt(1)*binWidth;
 
-
 % id of animals
 idVec = supraTb.LTR(supraTb.MSEstm == true);
 edges = [-1:binWidth:1];

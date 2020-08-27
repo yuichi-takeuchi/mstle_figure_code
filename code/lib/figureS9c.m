@@ -1,4 +1,4 @@
-function [No] = figureS9c()
+function [sBasicStats, sStatsTest, sBasicStats_ind, sStatsTest_ind, No] = figureS9c()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
@@ -6,116 +6,120 @@ supplement = 'S';
 figureNo = 9;
 panel = 'c';
 inputFileName1 = 'Figure3_0_20.csv';
+inputFileName2 = ['Figure' supplement num2str(figureNo) '_rTbTh.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
-%% r histogram all
-% data
+%% Data imports
 Tb20 = readtable(['../data/' inputFileName1]);
-r_0_20 = Tb20.r;
+rTbTh = readtable(['tmp/' inputFileName2]);
+VarNames = Tb20.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
 
-% r get the threshold
-xRange = [0 1];
-[ indForSeparation, ~ ] = fitf_gmm2fitFor1DdataSeparation2( r_0_20, xRange);
-x = linspace(xRange(1), xRange(2), 1000);
-rThreshold = x(indForSeparation);
+% %% Basic statistics and Statistical tests
+% [ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( Tb20, VarNames, Tb20.MSEstm );
+% 
+% %% animal basis stats (independent)
+% for i = 1:length(VarNames)
+%     [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(Tb20.(VarNames{i}), Tb20.LTR, Tb20.MSEstm);
+%     [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+%     [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( Tb20.(VarNames{i}), Tb20.MSEstm);
+% end
 
-% fitting
-numGaussian = 2;
-gmdist = fitgmdist(r_0_20, numGaussian);
-gmsigma = gmdist.Sigma;
-gmmu = gmdist.mu;
-gmwt = gmdist.ComponentProportion;
-binWidth = 0.05;
-fit1 = pdf(gmdist, x')*binWidth; 
-fit2 = pdf('Normal', x, gmmu(1), gmsigma(1)^0.5)*gmwt(1)*binWidth;
-fit3 = pdf('Normal', x, gmmu(2), gmsigma(2)^0.5)*gmwt(2)*binWidth;
-
-% id of animals
-idVec = Tb20.LTR;
-edges = 0:binWidth:1;
-close all
-
-hfig = figure(1);
-hax = axes;
-
-% building a plot
-[ hs ] = figf_BarAsStackedHistWThreeFits1(hax, r_0_20, idVec, edges, x, fit1, fit2, fit3, 'probability' ); % data1, data2, fignum
-
-% global parameters
-fontname = 'Arial';
-fontsize = 5;
-
-% figure parameter settings
-set(hfig,...
-    'PaperUnits', 'centimeters',...
-    'PaperPosition', [0 0 5 5],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [5 5]... % width, height
-    );
-
-% axis parameter settings
-set(hs.ax,...
-    'FontName', fontname,...
-    'FontSize', fontsize...
-    );
-
-incrStep = 0.8/length(unique(Tb20.LTR));
-for i = 1:length(unique(Tb20.LTR))
-    set(hs.bar(i),...
-        'FaceColor', [0.1+i*incrStep 0.1+i*incrStep 0.1+i*incrStep]...
-        );
+%% get basic stats and tests on vector length per trial
+cndthnVec = rTbTh.MSEstm + 1;
+cndthnVec(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 1) = 3;
+for i = 1:length(VarNames)
+    data = rTbTh.(VarNames{i});
+    data1 = data(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 0);
+    data2 = data(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 1);
+    [sBasicStats(i)] = stats_sBasicStats_anova1( data, cndthnVec );
+    [sStatsTest(i)] = stats_ANOVA1StatsStructs1( data, cndthnVec , 'bonferroni');
+    [ sBasicStats_ind(i), sStatsTest_ind(i) ] = statsf_getBasicStatsAndTestStructs2( data1, data2 );
 end
 
-% fitting curve parameter settings
-set(hs.plt{1},...
-    'LineWidth', 1,...
-    'Color', [0.2 0.2 0.2]...
-    );
+%% Figure preparation (clustered)
+% Common labelings
+CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
+CVLabel = {'Seizure duration (s)', 'Seizure duration (s)', 'Racine''s scale'};
 
-set(hs.plt{2},...
-    'LineStyle', '--',...
-    'LineWidth', 1,...
-    'Color', [0 0 0]...
-    );
+delay = nan;
+% delay = [nan 0 20 40 60];
 
-set(hs.plt{3},...
-    'LineStyle', '--',...
-    'LineWidth', 1,...
-    'Color', [0 1 0]...
-    );
+for k = 1:length(delay)
+    rTbTh = readtable(['tmp/' inputFileName2]);
+    if ~isnan(delay(k))
+        rTbTh = rTbTh(rTbTh.stmDly == delay(k), :);
+    end
+    cndthnVec1 = rTbTh.MSEstm + 1;
+    cndthnVec1(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 1) = 3;
 
-set(hs.ylbl, 'String', 'Probability');
-set(hs.xlbl, 'String', 'r');
-set(hs.ttl, 'String', 'Length of resultant vector');
+    close all
+    hfig = figure(1);
+    for i = 1:length(VarNames)
 
-% separation line
-figure(hfig)
-yLimits = get(gca,'YLim');
-hl = line(gca, [x(indForSeparation) x(indForSeparation)], yLimits);
-% hl = line(gca, [threshold threshold], yLimits);
+        % figure parameter settings
+        set(hfig,...
+            'PaperUnits', 'centimeters',...
+            'PaperPosition', [0 0 17.5 5],... % [h distance, v distance, width, height], origin: left lower corner
+            'PaperSize', [17.5 5]... % width, height
+            );
 
-set(hl,...
-    'LineStyle', ':',...
-    'LineWidth', 1,...
-    'Color', [0 0 0]);
+        % global parameters
+        fontname = 'Arial';
+        fontsize = 5;
 
-% outputs
-print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
-print(['../results/figure' supplement num2str(figureNo) panel '.png'], '-dpng');
+        % axis
+        hax = subplot(1, 3, i);
 
-close all
+        % building a plot
+        [ hs ] = figf_BarMeanIndpndPlot3( rTbTh.LTR, rTbTh.(VarNames{i}), cndthnVec1, rTbTh.rThrshlded + 1, 0.4, hax );
 
-%% Separation of data by the threshold of r (output is ~rTbTh.csv file)
-% CSV file output
-Tb20_full = readtable(['../data/' inputFileName1]);
+        % setting parametors of bars and plots
+        set(hs.bar, 'BarWidth', 0.6);
+        set(hs.bar(1), 'FaceColor',[1 1 1]);
+        set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+        set(hs.bar(3), 'FaceColor',[0 0 0]);
 
-r_Tb20 = Tb20_full.r;
-indThrshldHalf = r_Tb20(Tb20_full.MSEstm == 1) > rThreshold;
-indThrshld = interleave(indThrshldHalf, indThrshldHalf);
+        for j = 1:size(hs.cplt, 2)
+            set(hs.cplt{1,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0.2 0.2 0.2]);
+            set(hs.cplt{2,j}, 'LineWidth', 0.5, 'MarkerSize', 4, 'Color', [0 1 0]);
+        end
 
-tempTb = table(indThrshld, 'VariableNames',{'rThrshlded'});
+        set(hs.xlbl, 'String', 'Estim and Phase-locking strength');
+        set(hs.ylbl, 'String', CVLabel{i});
+        set(hs.ttl, 'String', CTitle{i});
 
-rTbTh = [Tb20_full, tempTb];
-writetable(rTbTh, ['tmp/Figure' supplement num2str(figureNo) '_rTbTh.csv'])
+        % patch
+        hax = gca;
+        yl = get(hax, 'YLim');
+
+        % axis parameter settings
+        set(hs.ax,...
+            'YLim', yl,...
+            'XLim', [0.5 3.5],...
+            'XTick', [1 2 3],...
+            'XTickLabel', {'Off', 'On-Low r', 'On-High r'},...
+            'FontName', fontname,...
+            'FontSize', fontsize...
+            );
+        if i == 3
+            set(hs.ax, 'YTick', 0:5)
+        end
+    end
+    
+    % outputs
+    if isnan(delay(k))
+        print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
+        print(['../results/figure' supplement num2str(figureNo) panel '.png'], '-dpng');    
+    else
+        print(['../results/figure' supplement num2str(figureNo) panel '_' num2str(delay(k)) 'msDelay_.pdf'], '-dpdf');
+        print(['../results/figure' supplement num2str(figureNo) panel '_' num2str(delay(k)) 'msDelay_.png'], '-dpng');    
+    end
+    
+    close all
+
+end
+
+rTbTh = readtable(['tmp/' inputFileName2]);
 
 %% Number of rats and trials
 No.Rats = length(unique(rTbTh.LTR));
@@ -123,7 +127,12 @@ No.Trials = length(rTbTh.LTR);
 
 %% Save
 save(['../results/' outputFileName],...
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_ind',...
+    'sStatsTest_ind',...
     'No')
+
 disp('done')
 
 end
