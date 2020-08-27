@@ -1,54 +1,139 @@
-function [sBasicStatsSupra, sStatsTestSupra, No] = figureS9e()
-% Open or closed-loop septum optogenetic stimulation for kindling-induced 
-% evoked temporal lobe seizures
-% This script conducts statistical analyses and bar graph outputs of
-% summarized data in csv (control vs. treatment)
-% Copyright(c) 2018–2020 Yuichi Takeuchi
+function [CorStatTest, No] = figureS9e()
+% Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
 figureNo = 9;
-fgNo = 624;
-panel = 'E';
-control = 'Closed';
-graphSuffix = 'Dly';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg' num2str(fgNo) '_' control 'LoopStim.csv'];
-outputFileName = ['Figure' supplement num2str(figureNo) panel '_' control 'LoopStim_PooledOnOff.mat'];
+panel = 'e';
+inputFileName1 = 'Figure3_0_20.csv';
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
-%% Data import 1
-orgTb = readtable(['../data/' inputFileName]); % original csv data
-supraTb = orgTb(logical(orgTb.Supra),:); % 
-VarNames = orgTb.Properties.VariableNames(15:19); % {RS, WDS, ADDrtn, HPCDrtn, CtxDrtn}
+%% r scattered plot with MI all
+Tb20 = readtable(['../data/' inputFileName1]);
+Tb20 = Tb20(Tb20.MSEstm == 1,:);
 
-%% Data import 2
-supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
+% parameters
+LTR = Tb20.LTR;
+r_0_20 = Tb20.r;
+HPC = Tb20.HPCDrtn;
+Ctx = Tb20.CtxDrtn;
+RS = Tb20.RS;
 
-%% Basic statistics and Statistical tests
-% supra
-[ sBasicStatsSupra, sStatsTestSupra ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.(10) );
+% nan rejection and conditioning
+idx = ~isnan(r_0_20);
+r = r_0_20(idx);
+HPC = HPC(idx);
+Ctx = Ctx(idx);
+RS = RS(idx);
 
-%% Figure preparation (clustered)
-colorMat = [0 0 0; 0 0 1]; % RGB
-% Common labelings
-CTitle = {'Motor seizure', 'Wet-dog shaking', 'AD duration', 'HPC electrographic seizure', 'Ctx electrographic seizure'};
-CVLabel = {'Racine''s scale', 'Behavior No', 'Duration (s)', 'Duration (s)', 'Duration (s)'};
-outputGraph = [1 1]; % pdf, png
+LTR = LTR(idx);
 
-% supra
-outputFileNameBase = ['Figure' supplement num2str(figureNo) panel '_Supra' control 'Loop_Pooled' graphSuffix '_'];
-[ flag ] = figsf_BarScatPairedOpt2( supraTbTh, VarNames, sBasicStatsSupra, CTitle, CVLabel, colorMat, outputGraph, outputFileNameBase);
-for i = 1:length(VarNames)
-    movefile([outputFileNameBase VarNames{i} '.pdf'], ['../results/' outputFileNameBase VarNames{i} '.pdf'])
-    movefile([outputFileNameBase VarNames{i} '.png'], ['../results/' outputFileNameBase VarNames{i} '.png'])
+% getting a regression line
+coeffrHPC = polyfit(r, HPC, 1);
+coeffrCtx = polyfit(r, Ctx, 1);
+coeffrRS = polyfit(r, RS, 1);
+
+% correlation test
+% r vs MI
+CorStatTest(1).Label = 'r vs HPC';
+R = corrcoef(r,HPC);
+CorStatTest(1).coefR = R;
+[rho, pval] = corr(r,HPC, 'Type', 'Pearson');
+CorStatTest(1).PearsonRho = rho;
+CorStatTest(1).PearsonP = pval;
+[rho, pval] = corr(r, HPC, 'Type', 'Spearman');
+CorStatTest(1).SpearmanRho = rho;
+CorStatTest(1).SpearmanP = pval;
+
+CorStatTest(2).Label = 'r vs Ctx';
+R = corrcoef(r,Ctx);
+CorStatTest(2).coefR = R;
+[rho, pval] = corr(r,Ctx, 'Type', 'Pearson');
+CorStatTest(2).PearsonRho = rho;
+CorStatTest(2).PearsonP = pval;
+[rho, pval] = corr(r, Ctx, 'Type', 'Spearman');
+CorStatTest(2).SpearmanRho = rho;
+CorStatTest(2).SpearmanP = pval;
+
+CorStatTest(3).Label = 'r vs RS';
+R = corrcoef(r,RS);
+CorStatTest(3).coefR = R;
+[rho, pval] = corr(r,RS, 'Type', 'Pearson');
+CorStatTest(3).PearsonRho = rho;
+CorStatTest(3).PearsonP = pval;
+[rho, pval] = corr(r, RS, 'Type', 'Spearman');
+CorStatTest(3).SpearmanRho = rho;
+CorStatTest(3).SpearmanP = pval;
+
+%% figure preparation
+
+xyData(:,:,1) = [r HPC];
+xyData(:,:,2) = [r Ctx];
+xyData(:,:,3) = [r RS];
+
+coef = [coeffrHPC;coeffrCtx;coeffrRS];
+CTitle = {'r vs HPC seizure', 'r vs Ctx seizure', 'r vs Motor seizure'};
+CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
+CHLabel = {'r', 'r', 'r'};
+
+close all
+hfig = figure(1);
+
+% figure parameter settings
+set(hfig,...
+    'PaperUnits', 'centimeters',...
+    'PaperPosition', [0 0 17.5 5],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [17.5 6]... % width, height
+    );
+
+% global parameters
+fontname = 'Arial';
+fontsize = 5;
+
+for i = 1:3
+
+    hax = subplot(1,3,i);
+
+    [ hs ] = figf_ScatGroupedRefline1( hax, xyData(:,1,i), xyData(:,2,i), LTR,coef(i,:), CorStatTest(i).coefR);
+
+    set(hs.scttr,...
+        'MarkerEdgeColor', [0 0 0],...
+        'Sizedata', 10);
+
+    set(hs.rl,...
+        'Color', [0 1 0],...
+        'LineWidth', 1);
+
+    set(hs.txt,...
+        'fontsize', fontsize,...
+        'verticalalignment', 'top',...
+        'horizontalalignment', 'left');
+
+    set(hs.xlbl, 'String', CHLabel{i});
+    set(hs.ylbl, 'String', CVLabel{i});
+    set(hs.ttl, 'String', CTitle{i});
+
+    set(hs.ax,...
+        'FontName', fontname,...
+        'FontSize', fontsize);
 end
-clear flag outputFileNameBase; close all
+
+
+% outputs
+print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
+print(['../results/figure' supplement num2str(figureNo) panel '.png'], '-dpng');
+
+close all
 
 %% Number of rats and trials
-No.supraRats = length(unique(supraTb.LTR));
-No.supraTrials = length(supraTb.LTR);
+No.Rats = length(unique(Tb20.LTR));
+No.Trials = length(Tb20.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStatsSupra', 'sStatsTestSupra', 'No', '-v7.3')
+save(['../results/' outputFileName],...
+    'CorStatTest',...
+    'No')
+
 disp('done')
 
 end

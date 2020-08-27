@@ -1,12 +1,12 @@
-function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, No] = figureS18i()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, No] = figureS19i()
 % Calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 18;
+figureNo = 19;
 panel = 'i';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg627_OpenLoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg602_OpenLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import

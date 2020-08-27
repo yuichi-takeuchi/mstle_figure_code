@@ -5,7 +5,7 @@ function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS1
 supplement = 'S';
 figureNo = 17;
 panel = 'e';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg627_ClosedLoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg603_OpenLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import 

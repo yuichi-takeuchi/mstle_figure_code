@@ -144,7 +144,7 @@ No.Rats = length(unique(Tb.LTR));
 No.Trials = length(Tb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'CorStatTest', 'No', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'CorStatTest', 'No')
 disp('done')
 
 end

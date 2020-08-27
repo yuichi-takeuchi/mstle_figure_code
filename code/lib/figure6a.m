@@ -45,7 +45,6 @@ coeffMIdCtx = polyfit(MI, dCtx, 1);
 coeffMIdRS = polyfit(MI, dRS, 1);
 coeffdCtxdRS = polyfit(dCtx, dRS, 1);
 
-
 % Correlation test
 % HPC vs dCtx
 CorStatTest(1).Label = 'HPC vs dCtx';
