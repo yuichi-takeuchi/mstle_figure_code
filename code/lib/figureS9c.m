@@ -1,4 +1,4 @@
-function [sBasicStats, sStatsTest, sBasicStats_ind, sStatsTest_ind, No] = figureS9c()
+function [sBasicStats, sStatsTest, sBasicStats_ind, sStatsTest_ind, sBasicStats_pa, No] = figureS9c()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
@@ -14,16 +14,6 @@ Tb20 = readtable(['../data/' inputFileName1]);
 rTbTh = readtable(['tmp/' inputFileName2]);
 VarNames = Tb20.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
 
-% %% Basic statistics and Statistical tests
-% [ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( Tb20, VarNames, Tb20.MSEstm );
-% 
-% %% animal basis stats (independent)
-% for i = 1:length(VarNames)
-%     [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(Tb20.(VarNames{i}), Tb20.LTR, Tb20.MSEstm);
-%     [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
-%     [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( Tb20.(VarNames{i}), Tb20.MSEstm);
-% end
-
 %% get basic stats and tests on vector length per trial
 cndthnVec = rTbTh.MSEstm + 1;
 cndthnVec(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 1) = 3;
@@ -31,9 +21,15 @@ for i = 1:length(VarNames)
     data = rTbTh.(VarNames{i});
     data1 = data(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 0);
     data2 = data(rTbTh.MSEstm == 1 & rTbTh.rThrshlded == 1);
+    
+    % per trial
     [sBasicStats(i)] = stats_sBasicStats_anova1( data, cndthnVec );
     [sStatsTest(i)] = stats_ANOVA1StatsStructs1( data, cndthnVec , 'bonferroni');
-    [ sBasicStats_ind(i), sStatsTest_ind(i) ] = statsf_getBasicStatsAndTestStructs2( data1, data2 );
+    [sBasicStats_ind(i), sStatsTest_ind(i)] = statsf_getBasicStatsAndTestStructs2( data1, data2 );
+    
+    % per animal
+    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(data, rTbTh.LTR, cndthnVec);
+    [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
 end
 
 %% Figure preparation (clustered)
@@ -131,6 +127,7 @@ save(['../results/' outputFileName],...
     'sStatsTest',...
     'sBasicStats_ind',...
     'sStatsTest_ind',...
+    'sBasicStats_pa',...
     'No')
 
 disp('done')
