@@ -1,9 +1,9 @@
-function [CorStatTest, No] = figureS9d()
+function [CorStatTest, No] = figureS8d()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 9;
+figureNo = 8;
 panel = 'd';
 inputFileName1 = 'Figure3_0_20.csv';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
@@ -73,8 +73,8 @@ xyData(:,:,3) = [r RS];
 
 coef = [coeffrHPC;coeffrCtx;coeffrRS];
 CTitle = {'Phase-locking vs HPC seizure', 'Phase-locking vs Ctx seizure', 'Phase-locking vs Motor seizure'};
-CVLabel = {'Seizure duration (s)', 'Seizure duration (s)', 'Racine''s scale'};
-CHLabel = {'Phase-locking strength (r)', 'Phase-locking strength (r)', 'Phase-locking strength (r)'};
+CVLabel = {'Seizure duration (s)', 'Seizure duration (s)', 'Racine''s score'};
+CHLabel = {'Length of resultant vector (r)', 'Length of resultant vector (r)', 'Length of resultant vector (r)'};
 
 close all
 hfig = figure(1);

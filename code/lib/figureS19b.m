@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, No] = figureS20b()
+function [sBasicStats, sStatsTest, No] = figureS19b()
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 20;
+figureNo = 19;
 panel = 'b';
 inputFileNameOpen = 'Figure2_Fg641_OpenLoopStim.csv';
 inputFileNameClosed = 'Figure3_Fg641_ClosedLoopStim.csv';
@@ -57,7 +57,7 @@ for i = 1:3
     hs.bar(1).FaceColor = [1 1 1];
     hs.bar(2).FaceColor = colorMap(i,:);
         
-    hs.xlbl.String = 'Racine''s scale';
+    hs.xlbl.String = 'Racine''s score';
     hs.ylbl.String = 'Probability';
     hs.ttl.String = 'Motor seizure';
     hs.lgnd = legend(clgnd);
@@ -91,7 +91,7 @@ for i = 1:3
     set(hs.plt(2), 'Color', colorMap(i,:));
 
     hs.ylbl.String = 'Cumulative probability';
-    hs.xlbl.String = 'Racine''s scale';
+    hs.xlbl.String = 'Racine''s score';
     hs.ttl.String = 'Motor seizure';
 
     % axis parameter settings

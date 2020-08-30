@@ -6,7 +6,7 @@ function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, No] = figureS1
 supplement = 'S';
 figureNo = 18;
 panel = 'd';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg627_ClosedLoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg602_ClosedLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import
@@ -96,7 +96,7 @@ No.Rats = length(unique(supraTb.LTR));
 No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'No', '-v7.3')
+save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'No')
 disp('done')
 
 end

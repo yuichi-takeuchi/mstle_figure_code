@@ -1,11 +1,11 @@
-function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS17e()
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS10g()
 % Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 17;
-panel = 'e';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg627_ClosedLoopStim.csv'];
+figureNo = 10;
+panel = 'g';
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg624_OpenLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import 

@@ -1,9 +1,9 @@
-function [No] = figureS9b()
+function [No] = figureS8b()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 9;
+figureNo = 8;
 panel = 'b';
 inputFileName1 = 'Figure3_0_20.csv';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
@@ -84,8 +84,8 @@ set(hs.plt{3},...
     );
 
 set(hs.ylbl, 'String', 'Probability');
-set(hs.xlbl, 'String', 'Phase-locking strength (r)');
-set(hs.ttl, 'String', 'Length of resultant vector');
+set(hs.xlbl, 'String', 'Length of resultant vector (r)');
+set(hs.ttl, 'String', 'Phase-locking strength');
 
 % separation line
 figure(hfig)

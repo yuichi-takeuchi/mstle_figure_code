@@ -100,6 +100,7 @@ for i = 1:nch
     set(gca,'XTickLabel',xtext,'Fontsize',fontsize);    
     ylabel('Power (a.u.)','FontSize',fontsize);   
     title(chname{i},'FontSize',fontsize+2);
+    box off
 
     % ===== star ========
    for s = 1:bandnum

@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, No] = figureS20a()
+function [sBasicStats, sStatsTest, No] = figureS19a()
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 20;
+figureNo = 19;
 panel = 'a';
 inputFileNameOpen = 'Figure2_Fg641_OpenLoopStim.csv';
 inputFileNameClosed = 'Figure3_Fg641_ClosedLoopStim.csv';

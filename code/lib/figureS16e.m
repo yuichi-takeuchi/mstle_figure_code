@@ -1,11 +1,11 @@
-function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS19e()
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS16e()
 % Copyright(c) 2018–2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 19;
+figureNo = 16;
 panel = 'e';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg602_ClosedLoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg603_OpenLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import 
@@ -27,7 +27,7 @@ end
 %% Figure preparation (clustered)
 % Common labelings
 CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
-CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
+CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s score'};
 
 close all
 hfig = figure(1);
@@ -94,8 +94,8 @@ save(['../results/' outputFileName],...
     'sStatsTest',...
     'sBasicStats_pa',...
     'sStatsTest_pa',...
-    'No',...
-    '-v7.3')
+    'No')
+
 disp('done')
 
 end

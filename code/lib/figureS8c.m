@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, sBasicStats_ind, sStatsTest_ind, sBasicStats_pa, No] = figureS9c()
+function [sBasicStats, sStatsTest, sBasicStats_ind, sStatsTest_ind, sBasicStats_pa, No] = figureS8c()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 9;
+figureNo = 8;
 panel = 'c';
 inputFileName1 = 'Figure3_0_20.csv';
 inputFileName2 = ['Figure' supplement num2str(figureNo) '_rTbTh.csv'];
@@ -35,7 +35,7 @@ end
 %% Figure preparation (clustered)
 % Common labelings
 CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
-CVLabel = {'Seizure duration (s)', 'Seizure duration (s)', 'Racine''s scale'};
+CVLabel = {'Seizure duration (s)', 'Seizure duration (s)', 'Racine''s score'};
 
 delay = nan;
 % delay = [nan 0 20 40 60];

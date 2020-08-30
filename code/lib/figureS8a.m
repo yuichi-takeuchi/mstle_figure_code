@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, No] = figureS9a()
+function [sBasicStats, sStatsTest, No] = figureS8a()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 9;
+figureNo = 8;
 panel = 'a';
 inputFileName1 = 'Figure3_0_20.csv';
 inputFileName2 = 'Figure3_20_60.csv';
@@ -68,10 +68,10 @@ g = [gnsccss_20; gsccss_20; gnsccss_60; gsccss_60];
 
 hbox = boxplot(hax,x,g, 'Color', 'kb');
 box('off')
-hylbl1 = ylabel('Phase-locking strength (r)');
+hylbl1 = ylabel('Length of resultant vector (r)');
 hxlbl = xlabel('Time after seizure onset (s)');
 
-httl = title('Length of resultant vector');
+httl = title('Phase-locking strength');
 
 set(hax,...
     'YLim', [0 1],...

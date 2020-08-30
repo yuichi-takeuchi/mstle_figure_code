@@ -1,10 +1,10 @@
-function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, chi2] = figureS12df()
+function [sBasicStats, sStatsTest, sBasicStats_MI, sStatsTest_MI, chi2] = figureS11df()
 % This script calcurates and clusters modulation index of HPC electrographic seizures.
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 12;
+figureNo = 11;
 panel1 = 'd';
 panel2 = 'f';
 inputFileName = ['Figure' supplement num2str(figureNo) '_Fg624_ClosedLoopStim.csv'];
@@ -182,8 +182,14 @@ No.Rats = length(unique(supraTb.LTR));
 No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'sBasicStats_MI', 'sStatsTest_MI', 'chi2', 'No', '-v7.3')
-% save(['tmp/' outputFileName], 'percThrshlded', '-v7.3')
+save(['../results/' outputFileName],...
+    'sBasicStats',...
+    'sStatsTest',...
+    'sBasicStats_MI',...
+    'sStatsTest_MI',...
+    'chi2',...
+    'No')
+
 disp('done')
 
 end 

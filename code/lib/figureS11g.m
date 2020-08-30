@@ -1,82 +1,105 @@
-function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figureS11g()
-% Copyright(c) 2018–2020 Yuichi Takeuchi
+function [sBasicStats, sStatsTest, No] = figureS11g()
+% Copyright(c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
 figureNo = 11;
 panel = 'g';
-inputFileName = ['Figure' supplement num2str(figureNo) '_Fg624_OpenLoopStim.csv'];
+inputFileName = ['Figure' supplement num2str(figureNo) '_Fg624_ClosedLoopStim.csv'];
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
-%% Data import 
+%% Data import 1
 orgTb = readtable(['../data/' inputFileName]); % original csv data
 supraTb = orgTb(logical(orgTb.Supra),:); % 
-VarNames = orgTb.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
+dataVarNames = orgTb.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS}
+OnOffVarName = orgTb.Properties.VariableNames{10};
+linearVarName = orgTb.Properties.VariableNames{12};
+condVec = unique(orgTb.illmDly);
 
+%% Data import 2
+supraTbTh = readtable(['tmp/Figure' supplement num2str(figureNo) '_supraTbTh.csv']);
+ThrshldVarName = supraTbTh.Properties.VariableNames{23};
+    
 %% Basic statistics and Statistical tests
 % supra
-[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( supraTb, VarNames, supraTb.Laser );
+[ sBasicStats, sStatsTest ] = statsf_get3ANOVAStatsStructs1( supraTbTh, dataVarNames, OnOffVarName, linearVarName, ThrshldVarName);
+close all
 
-%% animal basis stats (independent)
-for i = 1:length(VarNames)
-    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(supraTb.(VarNames{i}), supraTb.LTR, supraTb.Laser);
-    [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
-    [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( supraTb.(VarNames{i}), supraTb.Laser);
-end
-
-%% Figure preparation (clustered)
-% Common labelings
-CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
-CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
-
+%% Figure preparation
 close all
 hfig = figure(1);
-for i = 1:length(VarNames)
-        
-    % figure parameter settings
-    set(hfig,...
-        'PaperUnits', 'centimeters',...
-        'PaperPosition', [0.5 0.5 14 4],... % [h distance, v distance, width, height], origin: left lower corner
-        'PaperSize', [15 5]... % width, height
-        );
-    
-    % global parameters
-    fontname = 'Arial';
-    fontsize = 5;
-    
-    % axis
-    hax = subplot(1, 3, i);
-    
-    % building a plot
-    [ hs ] = figf_BarMeanIndpndPlot1( supraTb.LTR, supraTb.(VarNames{i}), supraTb.Laser + 1, 0.4, hax );
- 
-    % setting parametors of bars and plots
-    set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', 0.5);
-    
-    for j = 1:size(hs.cplt, 2)
-        set(hs.cplt{j}, 'LineWidth', 0.5, 'MarkerSize', 4); % 'Color', [0 0 0]
-    end
-    
-    set(hs.xlbl, 'String', 'Laser');
-    set(hs.ylbl, 'String', CVLabel{i});
-    set(hs.ttl, 'String', CTitle{i});
-    
-    % patch
-    hax = gca;
-    yl = get(hax, 'YLim');
-    hptch = patch([1.6 2.4 2.4 1.6],[yl(1) yl(1) yl(2) yl(2)],'b');
-    set(hptch,'FaceAlpha',0.2,'edgecolor','none');
-    
-    % axis parameter settings
-    set(hs.ax,...
-        'YLim', yl,...
-        'XLim', [0.5 2.5],...
-        'XTick', [1 2],...
-        'XTickLabel', {'Off', 'On'},...
-        'FontName', fontname,...
-        'FontSize', fontsize...
-        );
+
+% figure parameter settings
+set(hfig,...
+    'PaperUnits', 'centimeters',...
+    'PaperPosition', [0.5 0.5 10 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [11 5]... % width, height
+    );
+
+% global parameters
+fontname = 'Arial';
+fontsize = 5;
+
+% left axis (ctx seizures)
+meanCtx = sBasicStats(2).Mean;
+stdCtx = sBasicStats(2).Std;
+yyaxis left
+hax1 = gca;
+hold(hax1, 'on')
+for i = 1:size(meanCtx,1)
+    herrbr1(i) = errorbar(condVec, meanCtx(i,:), stdCtx(i,:), 'o');
 end
+hold(hax1, 'off')
+
+% setting parametors of bars and plots
+set(herrbr1, 'LineWidth', 0.75, 'MarkerSize', 4, 'YNegativeDelta',[]);
+set(herrbr1(1), 'LineStyle', '-', 'Color', [0 0 0],'DisplayName', 'Ctx, Off');
+set(herrbr1(2), 'LineStyle', '--', 'Color', [0 0 0], 'DisplayName', 'Ctx, On, non-success');
+set(herrbr1(3), 'LineStyle', '--', 'Color', [0 0 1], 'DisplayName', 'Ctx, On, success');
+
+hlgnd1 = legend([herrbr1(1), herrbr1(2), herrbr1(3)],...
+    'Box', 'Off', 'Location', 'northeastoutside');
+
+hylbl1 = ylabel('Ctx seizure duration (s)');
+hxlbl = xlabel('MS illumination delay (ms)');
+
+% axis parameter settings
+yl = get(hax1, 'YLim');   
+set(hax1,...
+    'XLim', [min(condVec)-3, max(condVec)+3],...
+    'XTick', condVec',...
+    'YLim', [-5, yl(2)],...
+    'YColor', [0 0 0],...
+    'FontName', fontname,...
+    'FontSize', fontsize...
+    );
+
+% right axis (Racine's sca;e)
+meanRS = sBasicStats(3).Mean;
+stdRS = sBasicStats(3).Std;
+yyaxis right
+hax2 = gca();
+hold(hax2, 'on')
+for i = 1:size(meanRS,1)
+    herrbr2(i) = errorbar(condVec, meanRS(i,:), stdRS(i,:), 'd');
+end
+hold(hax2, 'off')
+
+% setting parametors of bars and plots
+set(herrbr2, 'LineWidth', 0.75, 'MarkerSize', 4, 'YNegativeDelta',[]);
+set(herrbr2(1), 'LineStyle', '-', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS, Off'); 
+set(herrbr2(2), 'LineStyle', '--', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS, On, non-success');
+set(herrbr2(3), 'LineStyle', '--', 'Color', [0 0 1], 'MarkerFaceColor', [0 0 1], 'DisplayName', 'RS, On, success');
+
+hylbl2 = ylabel('Racine''s score');
+
+yl = get(hax2, 'YLim');
+set(hax2,...
+    'YLim', [0, yl(2)],...
+    'YColor', [0 0 0],...
+    'FontName', fontname,...
+    'FontSize', fontsize...
+    );
 
 % outputs
 print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
@@ -89,13 +112,7 @@ No.Rats = length(unique(supraTb.LTR));
 No.Trials = length(supraTb.LTR);
 
 %% Save
-save(['../results/' outputFileName],...
-    'sBasicStats',...
-    'sStatsTest',...
-    'sBasicStats_pa',...
-    'sStatsTest_pa',...
-    'No',...
-    '-v7.3')
+save(['../results/' outputFileName], 'sBasicStats', 'sStatsTest', 'No', '-v7.3')
 disp('done')
 
 end
