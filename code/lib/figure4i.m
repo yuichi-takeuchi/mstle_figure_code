@@ -83,7 +83,7 @@ hax2 = gca();
 hold(hax2, 'on')
 for i = 1:size(meanRS,1)
     tmpcondVec = condVec + randXcoeff *( rand(size(condVec)) - 0.5);
-    herrbr2(i) = errorbar(condVec, meanRS(i,:), stdRS(i,:), 'd');
+    herrbr2(i) = errorbar(tmpcondVec, meanRS(i,:), stdRS(i,:), 'd');
 end
 hold(hax2, 'off')
 

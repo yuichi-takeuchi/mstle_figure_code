@@ -56,8 +56,8 @@ plot(uniqueNum, animalRS, '-o', 'LineWidth', 0.4, 'MarkerSize', 3)
 plot(uniqueNum, MeanRS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 4)
 hold off
 title('Motor seizure');
-xlabel('Cumulative number of stimulation')
-ylabel('Racine''s scale')
+xlabel('Cumulative number of stimulations')
+ylabel('Racine''s score')
 set(gca,...
     'YLim', [0 5],...
     'YTick',[1:5]...
@@ -68,7 +68,7 @@ plot(uniqueNum, animalWDS, '-o', 'LineWidth', 0.4, 'MarkerSize', 3)
 plot(uniqueNum, MeanWDS, '-ok', 'MarkerFaceColor', 'k', 'LineWidth', 0.5, 'MarkerSize', 3)
 hold off
 title('Wet-dog shaking')
-xlabel('Cumulative number of stimulation')
+xlabel('Cumulative number of stimulations')
 ylabel('# Wet-dog shaking')
 
 % global parameters

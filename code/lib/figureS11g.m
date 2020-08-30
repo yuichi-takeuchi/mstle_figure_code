@@ -28,6 +28,7 @@ close all
 %% Figure preparation
 close all
 hfig = figure(1);
+randXcoeff = 3;
 
 % figure parameter settings
 set(hfig,...
@@ -47,7 +48,8 @@ yyaxis left
 hax1 = gca;
 hold(hax1, 'on')
 for i = 1:size(meanCtx,1)
-    herrbr1(i) = errorbar(condVec, meanCtx(i,:), stdCtx(i,:), 'o');
+    tmpcondVec = condVec + randXcoeff *( rand(size(condVec)) - 0.5);
+    herrbr1(i) = errorbar(tmpcondVec, meanCtx(i,:), stdCtx(i,:), 'o');
 end
 hold(hax1, 'off')
 
@@ -66,7 +68,7 @@ hxlbl = xlabel('MS illumination delay (ms)');
 % axis parameter settings
 yl = get(hax1, 'YLim');   
 set(hax1,...
-    'XLim', [min(condVec)-3, max(condVec)+3],...
+    'XLim', [min(condVec)-5, max(condVec)+5],...
     'XTick', condVec',...
     'YLim', [-5, yl(2)],...
     'YColor', [0 0 0],...
@@ -81,7 +83,8 @@ yyaxis right
 hax2 = gca();
 hold(hax2, 'on')
 for i = 1:size(meanRS,1)
-    herrbr2(i) = errorbar(condVec, meanRS(i,:), stdRS(i,:), 'd');
+    tmpcondVec = condVec + randXcoeff *( rand(size(condVec)) - 0.5);
+    herrbr2(i) = errorbar(tmpcondVec, meanRS(i,:), stdRS(i,:), 'd');
 end
 hold(hax2, 'off')
 

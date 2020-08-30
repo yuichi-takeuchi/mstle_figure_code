@@ -120,7 +120,7 @@ for i = 1:nch
        end
     end
     hold off
-    legend([hb(1),hb(2)],{'suc','non-suc'},'Location','northwest', 'box', 'off')
+    legend([hb(1),hb(2)],{'success','non-success'},'Location','northwest', 'box', 'off')
 
     set(hfig,...
        'PaperUnits', 'centimeters',...
