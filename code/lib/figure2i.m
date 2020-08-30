@@ -27,6 +27,7 @@ close all
 %% Figure preparation
 close all
 hfig = figure(1);
+randXcoeff = 1;
 
 % figure parameter settings
 set(hfig,...
@@ -46,7 +47,8 @@ yyaxis left
 hax1 = gca;
 hold(hax1, 'on')
 for i = 1:size(meanCtx,1)
-    herrbr1(i) = errorbar(condVec, meanCtx(i,:), stdCtx(i,:), 'o');
+    tmpcondVec = condVec + randXcoeff *( rand(size(condVec)) - 0.5);
+    herrbr1(i) = errorbar(tmpcondVec, meanCtx(i,:), stdCtx(i,:), 'o');
 end
 hold(hax1, 'off')
 
@@ -80,7 +82,8 @@ yyaxis right
 hax2 = gca();
 hold(hax2, 'on')
 for i = 1:size(meanRS,1)
-    herrbr2(i) = errorbar(condVec, meanRS(i,:), stdRS(i,:), 'd');
+    tmpcondVec = condVec + randXcoeff * ( rand(size(condVec)) - 0.5);
+    herrbr2(i) = errorbar(tmpcondVec, meanRS(i,:), stdRS(i,:), 'd');
 end
 hold(hax2, 'off')
 
@@ -90,7 +93,7 @@ set(herrbr2(1), 'LineStyle', '-', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 
 set(herrbr2(2), 'LineStyle', '--', 'Color', [0 0 0], 'MarkerFaceColor', [0 0 0], 'DisplayName', 'RS, On, non-induction');
 set(herrbr2(3), 'LineStyle', '--', 'Color', [1 0 0], 'MarkerFaceColor', [1 0 0], 'DisplayName', 'RS, On, induction');
 
-hylbl2 = ylabel('Racine''s scale');
+hylbl2 = ylabel('Racine''s score');
 
 yl = get(hax2, 'YLim');
 set(hax2,...

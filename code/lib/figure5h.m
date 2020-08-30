@@ -52,7 +52,7 @@ for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
 set(hs.xlbl, 'String', 'Laser');
-set(hs.ylbl, 'String', 'Intensity (uA)');
+set(hs.ylbl, 'String', 'Intensity (µA)');
 set(hs.ttl, 'String', 'Threshold for HPC');
 
 hax = gca;
@@ -77,8 +77,8 @@ set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth',
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
-set(hs.xlbl, 'String', 'Estim');
-set(hs.ylbl, 'String', 'Intensity (uA)');
+set(hs.xlbl, 'String', 'Laser');
+set(hs.ylbl, 'String', 'Intensity (µA)');
 set(hs.ttl, 'String', 'Threshold for Ctx');
 
 hax = gca;

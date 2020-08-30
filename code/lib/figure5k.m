@@ -25,8 +25,8 @@ end
 %% Figure preparation
 % params
 cndtnVec = dataTb.MSEstm + 1;
-randCoeff = 0.5;
-barWidth = 0.6;
+randCoeff = 0.4;
+barWidth = 0.7;
 
 close all
 hfig = figure(1);
@@ -53,7 +53,7 @@ for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
 set(hs.xlbl, 'String', 'Estim');
-set(hs.ylbl, 'String', 'Intensity (uA)');
+set(hs.ylbl, 'String', 'Intensity (µA)');
 set(hs.ttl, 'String', 'Threshold for HPC');
 
 set(hs.ax,...
@@ -74,7 +74,7 @@ for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
 set(hs.xlbl, 'String', 'Estim');
-set(hs.ylbl, 'String', 'Intensity (uA)');
+set(hs.ylbl, 'String', 'Intensity (µA)');
 set(hs.ttl, 'String', 'Threshold for HPC');
 
 set(hs.ax,...

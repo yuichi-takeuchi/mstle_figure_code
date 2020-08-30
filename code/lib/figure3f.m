@@ -54,10 +54,9 @@ g = [gnsccss; gsccss];
 
 hbox = boxplot(hax,x,g, 'Color', 'kb');
 box('off')
-hylbl1 = ylabel('r length');
+httl = title('Strength of phase-locking');
+hylbl1 = ylabel('Length of resultant vector (r)');
 % hxlbl = xlabel('');
-
-httl = title('Length of resultant vector');
 
 set(hax,...
     'YLim', [0 1],...

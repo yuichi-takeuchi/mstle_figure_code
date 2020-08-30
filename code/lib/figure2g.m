@@ -29,7 +29,7 @@ end
 %% Figure preparation (clustered)
 % Common labelings
 CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
-CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
+CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s score'};
 
 close all
 hfig = figure(1);
@@ -97,8 +97,8 @@ save(['../results/' outputFileName],...
     'sStatsTest',...
     'sBasicStats_pa',...
     'sStatsTest_pa',...
-    'No',...
-    '-v7.3')
+    'No')
+
 disp('done')
 
 end

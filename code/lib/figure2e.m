@@ -26,7 +26,7 @@ end
 %% Figure preparation (non-lebeling)
 % Common labelings 
 CTitle = {'HPC electrographic seizure', 'Ctx electrographic seizure', 'Motor seizure'};
-CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s scale'};
+CVLabel = {'Duration (s)', 'Duration (s)', 'Racine''s score'};
 
 close all
 hfig = figure(1);

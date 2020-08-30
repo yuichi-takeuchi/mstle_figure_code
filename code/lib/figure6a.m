@@ -85,7 +85,7 @@ xyData(:,:,3) = [dCtx dRS];
 
 coef = [coeffMIdCtx;coeffMIdRS;coeffdCtxdRS];
 CHLabel = {'Modulation index of HPC seizures', 'Modulation index of HPC seizures', '\DeltaCtx seizure duration (s)'};
-CVLabel = {'\DeltaCtx seizure duration (s)', '\DeltaRacine''s scale', '\DeltaRacine''s scale'};
+CVLabel = {'\DeltaCtx seizure duration (s)', '\DeltaRacine''s score', '\DeltaRacine''s score'};
 CTitle = {'HPC seizure vs Ctx seizure', 'HPC seizure vs Motor seizure', 'Ctx seizure vs Motor seizure'};
 
 close all

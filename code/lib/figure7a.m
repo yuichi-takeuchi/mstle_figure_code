@@ -55,7 +55,7 @@ hax(2).Title.Visible = 'on';
 hax(3) = subplot(3,1,3);
 plot(openloop_stim_shift, 'r')
 axis('off')
-title(gca,'Open-loop stimulation', 'Color', [1 0 0])
+title(gca,'Responsive open-loop stimulation', 'Color', [1 0 0])
 hax(3).Title.Visible = 'on';
 
 set(hax,...
