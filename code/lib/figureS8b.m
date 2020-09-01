@@ -5,12 +5,12 @@ function [No] = figureS8b()
 supplement = 'S';
 figureNo = 8;
 panel = 'b';
-inputFileName1 = 'Figure3_0_20.csv';
+inputFileName = 'Figure3_0_20.csv';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% r histogram all
 % data
-Tb20 = readtable(['../data/' inputFileName1]);
+Tb20 = readtable(['../data/' inputFileName]);
 r_0_20 = Tb20.r;
 
 % r get the threshold
@@ -106,7 +106,7 @@ close all
 
 %% Separation of data by the threshold of r (output is ~rTbTh.csv file)
 % CSV file output
-Tb20_full = readtable(['../data/' inputFileName1]);
+Tb20_full = readtable(['../data/' inputFileName]);
 
 r_Tb20 = Tb20_full.r;
 indThrshldHalf = r_Tb20(Tb20_full.MSEstm == 1) > rThreshold;
