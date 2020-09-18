@@ -1,9 +1,8 @@
-function figure7a()
+function figure7()
 % Copyright © 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 7;
-panel = 'a';
 inputFileName1 = 'AP_190718_exp1_3_LFP500_1_trial1.dat';
 inputFileName2 = 'AP_190718_exp1_3_adc_1_trial1.dat';
 
@@ -63,8 +62,8 @@ set(hax,...
     'FontName', fontname,...
     'FontSize', fontsize)
 
-print(['../results/figure' num2str(figureNo) panel  '.pdf'], '-dpdf')
-print(['../results/figure' num2str(figureNo) panel  '.png'], '-dpng')
+print(['../results/figure' num2str(figureNo) '.pdf'], '-dpdf')
+print(['../results/figure' num2str(figureNo) '.png'], '-dpng')
 close all
 
 %%

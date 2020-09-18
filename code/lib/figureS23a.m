@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, No] = figureS19a()
+function [sBasicStats, sStatsTest, No] = figureS23a()
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 19;
+figureNo = 23;
 panel = 'a';
 inputFileNameOpen = 'Figure2_Fg641_OpenLoopStim.csv';
 inputFileNameClosed = 'Figure3_Fg641_ClosedLoopStim.csv';
@@ -36,8 +36,8 @@ clgnd = {'Off', 'On'};
 hfig = figure(1);
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 17.5 10],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [18.5 11]... % width, height
+    'PaperPosition', [0 0 17.5 6.5],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [17.5 6.5]... % width, height
     );
 
 for i = 1:3

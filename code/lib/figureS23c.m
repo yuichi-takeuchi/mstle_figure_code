@@ -1,12 +1,13 @@
-function [sBasicStats, sStatsTest, No] = figure7b()
+function [sBasicStats, sStatsTest, No] = figureS23c()
 % Copyright (c) 2019, 2020 Yuichi Takeuchi
 
 %% params
-figureNo = 7;
-panel = 'b';
+supplement = 'S';
+figureNo = 23;
+panel = 'c';
 inputFileNameOpen = 'Figure2_Fg641_OpenLoopStim.csv';
 inputFileNameClosed = 'Figure3_Fg641_ClosedLoopStim.csv';
-outputFileName = ['figure' num2str(figureNo) panel '.mat'];
+outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];
 
 %% Data import
 srcTbOpen = readtable(['../data/' inputFileNameOpen]);
@@ -17,7 +18,7 @@ sTb(2).type = 'supra';
 sTb(2).tb = srcTbOpen(logical(srcTbOpen.Supra),:);
 sTb(3).type = 'closed';
 sTb(3).tb = srcTbClosed(logical(srcTbClosed.Supra),:);
-VarNames = srcTbOpen.Properties.VariableNames(19); % {CtxDrtn}
+VarNames = srcTbOpen.Properties.VariableNames(15); % {RS}
 
 %% Basic statistics and Statistical tests
 for i = 1:3
@@ -29,8 +30,7 @@ end
 % paramas
 fontname = 'Arial';
 fontsize = 5;
-colorMapBar = [[1 0 0]; [0 0 0]; [0 0 1]];
-colorMapCumsum = [[1 0 0]; [0.5 0.5 0.5]; [0 0 1]];
+colorMap = [[1 0 0]; [0 0 0]; [0 0 1]];
 clgnd = {'Off', 'On'};
 
 hfig = figure(1);
@@ -42,35 +42,35 @@ set(hfig,...
 
 for i = 1:3
     Tb = sTb(i).tb;
-    Off = Tb.CtxDrtn(Tb.MSEstm == false);
-    On  = Tb.CtxDrtn(Tb.MSEstm == true);
+    Off = Tb.RS(Tb.MSEstm == false);
+    On  = Tb.RS(Tb.MSEstm == true);
     
     % histgram by bar plot
-    edges = 0:10:70;
+    edges = -0.5:1:5.5;
     h1 = histcounts(Off, edges, 'Normalization', 'probability');
     h2 = histcounts(On, edges, 'Normalization', 'probability');
 
     hax = subplot(2, 3, i);
-    [ hs ] = figf_BarPlot2(hax, edges(1:end-1), [h1;h2]');
+    [ hs ] = figf_BarPlot2(hax, (edges(1:end-1) + edges(2:end))/2, [h1;h2]');
     
     set(hs.bar, 'BarWidth', 1)
     hs.bar(1).FaceColor = [1 1 1];
-    hs.bar(2).FaceColor = colorMapBar(i,:);
+    hs.bar(2).FaceColor = colorMap(i,:);
         
-    hs.xlbl.String = 'Duration (s)';
+    hs.xlbl.String = 'Racine''s score';
     hs.ylbl.String = 'Probability';
-    hs.ttl.String = 'Ctx electrographic seizure';
+    hs.ttl.String = 'Motor seizure';
     hs.lgnd = legend(clgnd);
     
     set(hs.ax,...
-        'XLim', [-5 75],...
-        'XTick', 0:10:70,...
+        'XLim', [-0.5 5.5],...
+        'XTick', 0:5,...
         'FontName', fontname,...
         'FontSize', fontsize...
         );
     
     set(hs.lgnd,...
-        'Location', 'northeast',...
+        'Location', 'north',...
         'FontName', fontname,...
         'FontSize', fontsize,...
         'Box', 'off');
@@ -78,27 +78,26 @@ for i = 1:3
     % cumurative curve
     hax = subplot(2, 3, 3+i);
 
-    edges = 0:70;
+    edges = -0.5:1:5.5;
     N1 = histcounts( Off, edges, 'Normalization', 'probability');
     N2 = histcounts( On, edges, 'Normalization', 'probability');
     Cumsum = [cumsum(N1); cumsum(N2)]';
 
-    edgesX = edges(1:end-1);
-    [ hs ] = figf_PlotWLegend3(hax, edgesX, Cumsum, clgnd);
+    [ hs ] = figf_PlotWLegend3(hax, (edges(1:end-1) + edges(2:end))/2, Cumsum, clgnd);
 
     % setting parametors of bars and plots
     set(hs.plt, 'LineWidth', 0.5);
     set(hs.plt(1), 'Color', [0 0 0]);
-    set(hs.plt(2), 'Color', colorMapCumsum(i,:));
+    set(hs.plt(2), 'Color', colorMap(i,:));
 
     hs.ylbl.String = 'Cumulative probability';
-    hs.xlbl.String = 'Duration (s)';
-    hs.ttl.String = 'Ctx electrographic seizure';
+    hs.xlbl.String = 'Racine''s score';
+    hs.ttl.String = 'Motor seizure';
 
     % axis parameter settings
     set(hs.ax,...
-        'XLim', [-5 75],...
-        'XTick', 0:10:70,...
+        'XLim', [-0.5 5.5],...
+        'XTick', 0:5,...
         'YLim', [0 1],...
         'FontName', fontname,...
         'FontSize', fontsize...
@@ -112,8 +111,8 @@ for i = 1:3
 end
 
 % outputs
-print(['../results/figure' num2str(figureNo) panel '.pdf'], '-dpdf');
-print(['../results/figure' num2str(figureNo) panel '.png'], '-dpng');
+print(['../results/figure' supplement num2str(figureNo) panel '.pdf'], '-dpdf');
+print(['../results/figure' supplement num2str(figureNo) panel '.png'], '-dpng');
 
 close all
 
