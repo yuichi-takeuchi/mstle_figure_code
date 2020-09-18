@@ -30,14 +30,15 @@ end
 % paramas
 fontname = 'Arial';
 fontsize = 5;
-colorMap = [[1 0 0]; [0 0 0]; [0 0 1]];
+colorMapBar = [[1 0 0]; [0 0 0]; [0 0 1]];
+colorMapCumsum = [[1 0 0]; [0.5 0.5 0.5]; [0 0 1]];
 clgnd = {'Off', 'On'};
 
 hfig = figure(1);
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 17.5 10],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [18.5 11]... % width, height
+    'PaperPosition', [0 0 17.5 7],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [17.5 7]... % width, height
     );
 
 for i = 1:3
@@ -55,7 +56,7 @@ for i = 1:3
     
     set(hs.bar, 'BarWidth', 1)
     hs.bar(1).FaceColor = [1 1 1];
-    hs.bar(2).FaceColor = colorMap(i,:);
+    hs.bar(2).FaceColor = colorMapBar(i,:);
         
     hs.xlbl.String = 'Racine''s score';
     hs.ylbl.String = 'Probability';
@@ -88,7 +89,7 @@ for i = 1:3
     % setting parametors of bars and plots
     set(hs.plt, 'LineWidth', 0.5);
     set(hs.plt(1), 'Color', [0 0 0]);
-    set(hs.plt(2), 'Color', colorMap(i,:));
+    set(hs.plt(2), 'Color', colorMapCumsum(i,:));
 
     hs.ylbl.String = 'Cumulative probability';
     hs.xlbl.String = 'Racine''s score';

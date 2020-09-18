@@ -37,8 +37,8 @@ clgnd = {'Off', 'On'};
 hfig = figure(1);
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0.5 0.5 17.5 10],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [18.5 11]... % width, height
+    'PaperPosition', [0 0 17.5 7],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [17.5 7]... % width, height
     );
 
 for i = 1:3
