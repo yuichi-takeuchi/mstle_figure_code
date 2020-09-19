@@ -23,7 +23,7 @@ subTbTh = readtable(['tmp/Figure' num2str(figureNo) '_subTbTh.csv']);
 for i = 1:length(VarNames)
     [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(subTb.(VarNames{i}), subTb.LTR, subTb.MSEstm);
     [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
-    [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( subTb.(VarNames{i}), subTb.MSEstm);
+    [sStatsTest_pa(i)] = statsf_paired2sampleTestsStatsStruct_cndtn( MeanPerAnimal, intrvntnVec );
 end
 
 %% Figure preparation (clustered)

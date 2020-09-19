@@ -20,7 +20,7 @@ VarNames = orgTb.Properties.VariableNames([18, 19, 15]); % {HPCDrtn, CtxDrtn, RS
 for i = 1:length(VarNames)
     [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(supraTb.(VarNames{i}), supraTb.LTR, supraTb.MSEstm);
     [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
-    [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( supraTb.(VarNames{i}), supraTb.MSEstm);
+    [sStatsTest_pa(i)] = statsf_paired2sampleTestsStatsStruct_cndtn( MeanPerAnimal, intrvntnVec );
 end
 
 %% Figure preparation (non-lebeling)
