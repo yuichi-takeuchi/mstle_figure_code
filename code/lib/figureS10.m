@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, No] = figureS9(ratId, colorId)
+function [sBasicStats, sStatsTest, No] = figureS10(ratId, colorId)
 % Copyright (c) 2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 9;
+figureNo = 10;
 panel = num2str(ratId);
 inputFileName = 'Figure3_Fg641_ClosedLoopStim.csv';
 outputFileName = ['figure' supplement num2str(figureNo) '_' panel '.mat'];

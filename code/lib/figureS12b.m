@@ -1,9 +1,9 @@
-function [No] = figureS8b()
+function [No] = figureS12b()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 8;
+figureNo = 12;
 panel = 'b';
 inputFileName = 'Figure3_0_20.csv';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];

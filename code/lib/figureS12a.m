@@ -1,9 +1,9 @@
-function [sBasicStats, sStatsTest, No] = figureS8a()
+function [sBasicStats, sStatsTest, No] = figureS12a()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 8;
+figureNo = 12;
 panel = 'a';
 inputFileName1 = 'Figure3_0_20.csv';
 inputFileName2 = 'Figure3_20_60.csv';

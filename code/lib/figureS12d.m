@@ -1,9 +1,9 @@
-function [CorStatTest, No] = figureS8d()
+function [CorStatTest, No] = figureS12d()
 % Copyright(c) 2018-2020 Yuichi Takeuchi
 
 %% params
 supplement = 'S';
-figureNo = 8;
+figureNo = 12;
 panel = 'd';
 inputFileName1 = 'Figure3_0_20.csv';
 outputFileName = ['figure' supplement num2str(figureNo) panel '.mat'];

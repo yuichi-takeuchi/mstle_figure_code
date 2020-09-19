@@ -4,8 +4,10 @@
 %%
 clc
 clear
+supplement = 'S';
+figureNo = 11;
 %loadcate pwrspctrm first
-load('../data/FigureS8_Powerall.mat')
+load(['../data/Figure' supplement num2str(figureNo) '_Powerall.mat'])
 %%
 fontsize = 6;
 xtick = [1,4,13,30,50,90,150];
@@ -54,7 +56,7 @@ for i = 1:nch
         'PaperSize', [8 6],...
         'paperposition', [0.5 0.5 7 5],...
         'renderer','painters')
-    print(gcf,'-dpdf',strcat(['../results/FigureS8_ch-' num2str(i) '-' chname{i}]));
+    print(gcf,'-dpdf',strcat(['../results/Figure' supplement num2str(figureNo) '_ch-' num2str(i) '-' chname{i}]));
     close gcf
 end
 disp('finished')
@@ -127,7 +129,7 @@ for i = 1:nch
         'PaperSize', [8 6],...
         'paperposition', [0.5 0.5 7 5],...
         'renderer','painters')
-    print(gcf,'-dpdf',strcat(['../results/FigureS8_Band-ch-' num2str(i) '-' chname{i}]));
+    print(gcf,'-dpdf',strcat(['../results/Figure' supplement num2str(figureNo) '_Band-ch-' num2str(i) '-' chname{i}]));
     close gcf
 end
 clear i j X Y1 hfig  hb xf yf1 yf2 xstar star s xlim ylim errhigh
