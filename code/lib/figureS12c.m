@@ -30,6 +30,7 @@ for i = 1:length(VarNames)
     % per animal
     [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(data, rTbTh.LTR, cndthnVec);
     [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
+%     [sStatsTest_pa(i)] = statsf_2sampleTestsStatsStruct_cndtn( MeanPerAnimal, intrvntnVec );
 end
 
 %% Figure preparation (clustered)
