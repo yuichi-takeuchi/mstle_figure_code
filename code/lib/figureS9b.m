@@ -37,8 +37,8 @@ clgnd = {'Off', 'On'};
 hfig = figure(1);
 set(hfig,...
     'PaperUnits', 'centimeters',...
-    'PaperPosition', [0 0 17.5 7],... % [h distance, v distance, width, height], origin: left lower corner
-    'PaperSize', [17.5 7]... % width, height
+    'PaperPosition', [0 0 17.5 4],... % [h distance, v distance, width, height], origin: left lower corner
+    'PaperSize', [17.5 4]... % width, height
     );
 
 for i = 1:3
@@ -51,7 +51,7 @@ for i = 1:3
     h1 = histcounts(Off, edges, 'Normalization', 'probability');
     h2 = histcounts(On, edges, 'Normalization', 'probability');
 
-    hax = subplot(2, 3, i);
+    hax = subplot(1, 3, i);
     [ hs ] = figf_BarPlot2(hax, edges(1:end-1), [h1;h2]');
     
     set(hs.bar, 'BarWidth', 1)
@@ -77,39 +77,39 @@ for i = 1:3
         'Box', 'off');
     
     % cumurative curve
-    hax = subplot(2, 3, 3+i);
-
-    edges = 0:70;
-    N1 = histcounts( Off, edges, 'Normalization', 'probability');
-    N2 = histcounts( On, edges, 'Normalization', 'probability');
-    Cumsum = [cumsum(N1); cumsum(N2)]';
-
-    edgesX = edges(1:end-1);
-    [ hs ] = figf_PlotWLegend3(hax, edgesX, Cumsum, clgnd);
-
-    % setting parametors of bars and plots
-    set(hs.plt, 'LineWidth', 0.5);
-    set(hs.plt(1), 'Color', [0 0 0]);
-    set(hs.plt(2), 'Color', colorMapCumsum(i,:));
-
-    hs.ylbl.String = 'Cumulative probability';
-    hs.xlbl.String = 'Duration (s)';
-    hs.ttl.String = 'Ctx electrographic seizure';
-
-    % axis parameter settings
-    set(hs.ax,...
-        'XLim', [-5 75],...
-        'XTick', 0:10:70,...
-        'YLim', [0 1],...
-        'FontName', fontname,...
-        'FontSize', fontsize...
-        );
-
-    set(hs.lgnd,...
-        'Location', 'southeast',...
-        'FontName', fontname,...
-        'FontSize', fontsize,...
-        'Box', 'off');
+%     hax = subplot(2, 3, 3+i);
+% 
+%     edges = 0:70;
+%     N1 = histcounts( Off, edges, 'Normalization', 'probability');
+%     N2 = histcounts( On, edges, 'Normalization', 'probability');
+%     Cumsum = [cumsum(N1); cumsum(N2)]';
+% 
+%     edgesX = edges(1:end-1);
+%     [ hs ] = figf_PlotWLegend3(hax, edgesX, Cumsum, clgnd);
+% 
+%     % setting parametors of bars and plots
+%     set(hs.plt, 'LineWidth', 0.5);
+%     set(hs.plt(1), 'Color', [0 0 0]);
+%     set(hs.plt(2), 'Color', colorMapCumsum(i,:));
+% 
+%     hs.ylbl.String = 'Cumulative probability';
+%     hs.xlbl.String = 'Duration (s)';
+%     hs.ttl.String = 'Ctx electrographic seizure';
+% 
+%     % axis parameter settings
+%     set(hs.ax,...
+%         'XLim', [-5 75],...
+%         'XTick', 0:10:70,...
+%         'YLim', [0 1],...
+%         'FontName', fontname,...
+%         'FontSize', fontsize...
+%         );
+% 
+%     set(hs.lgnd,...
+%         'Location', 'southeast',...
+%         'FontName', fontname,...
+%         'FontSize', fontsize,...
+%         'Box', 'off');
 end
 
 % outputs
