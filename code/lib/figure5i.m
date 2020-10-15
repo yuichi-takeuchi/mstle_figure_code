@@ -4,7 +4,7 @@ function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5i
 %% params
 figureNo = 5;
 panel = 'i';
-inputFileName = ['Figure' num2str(figureNo) '_Fg603_ThresIntensity.csv'];
+inputFileName = ['Figure' num2str(figureNo) '_Fg627_ThresIntensity.csv'];
 outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
@@ -44,9 +44,9 @@ fontsize = 5;
 
 % left part (after discharge)
 hax = subplot(1, 2, 1);
-[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, randCoeff , hax );
+[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, randCoeff, hax );
 
-set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
+set(hs.bar, 'EdgeColor', [0 0 0], 'LineWidth', 0.5, 'BarWidth', barWidth);
 set(hs.bar, 'FaceColor',[1 1 1]);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
@@ -73,7 +73,7 @@ set(hs.ax,...
 hax = subplot(1, 2, 2);
 [ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, randCoeff, hax );
 
-set(hs.bar,'EdgeColor',[0 0 0], 'LineWidth', 0.5, 'BarWidth', barWidth);
+set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
 set(hs.bar, 'FaceColor',[1 1 1]);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);

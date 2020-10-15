@@ -1,32 +1,33 @@
-function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5k()
-% Copyright (c) 2018-2020 Yuichi Takeuchi
+function [sBasicStats, sStatsTest, sBasicStats_pa, sStatsTest_pa, No] = figure5g()
+% Copyright (c) 2018, 2019, 2020 Yuichi Takeuchi
 
 %% params
 figureNo = 5;
-panel = 'k';
-inputFileName = ['Figure' num2str(figureNo) '_Fg641_ThresIntensity.csv'];
+panel = 'g';
+inputFileName = ['Figure' num2str(figureNo) '_Fg602_ThresIntensity.csv'];
 outputFileName = ['figure' num2str(figureNo) panel '.mat'];
 
 %% Data import
 srcTb = readtable(['../data/' inputFileName]); % original csv data
 VarNames = srcTb.Properties.VariableNames(10:11); % {ADThrs, sGSThrs}
-dataTb = srcTb(srcTb.stmDrtn == 60,:);
+dataTb = srcTb(srcTb.illmDrtn == 60,:);
 
 %% Basic statistics and Statistical tests
-[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( dataTb, VarNames, dataTb.MSEstm);
+[ sBasicStats, sStatsTest ] = statsf_getBasicStatsAndTestStructs1( dataTb, VarNames, dataTb.Laser);
 
 %% animal basis stats (independent)
 for i = 1:length(VarNames)
-    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(dataTb.(VarNames{i}), dataTb.LTR, dataTb.MSEstm);
+    [MeanPerAnimal, ~, intrvntnVec] = statsf_meanPer1With2(dataTb.(VarNames{i}), dataTb.LTR, dataTb.Laser);
     [sBasicStats_pa(i)] = stats_sBasicStats_anova1( MeanPerAnimal, intrvntnVec );
     [sStatsTest_pa(i)] = statsf_paired2sampleTestsStatsStruct_cndtn( MeanPerAnimal, intrvntnVec );
 end
 
 %% Figure preparation
 % params
-cndtnVec = dataTb.MSEstm + 1;
+cndtnVec = dataTb.Laser + 1;
 randCoeff = 0.4;
-barWidth = 0.7;
+barWidth = 0.5;
+
 
 close all
 hfig = figure(1);
@@ -44,19 +45,23 @@ fontsize = 5;
 
 % left part (after discharge)
 hax = subplot(1, 2, 1);
-[ hs] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, randCoeff, hax );
+[ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.ADThrs, cndtnVec, randCoeff, hax );
 
-set(hs.bar, 'EdgeColor', [0 0 0], 'LineWidth', 0.5, 'BarWidth', barWidth);
-set(hs.bar(1), 'FaceColor',[1 1 1]);
-set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
-set(hs.xlbl, 'String', 'Estim');
+set(hs.xlbl, 'String', 'Laser');
 set(hs.ylbl, 'String', 'Intensity (µA)');
 set(hs.ttl, 'String', 'Threshold for HPC');
 
+hax = gca;
+yl = get(hax, 'YLim');
+hptch = patch([1.6 2.4 2.4 1.6],[yl(1) yl(1) yl(2) yl(2)],'b');
+set(hptch,'FaceAlpha',0.2,'edgecolor','none');
+
 set(hs.ax,...
+    'YLim', yl,...
     'XLim', [0.5 2.5],...
     'XTick', [1 2],...
     'XTickLabel', {'Off', 'On'},...
@@ -64,20 +69,25 @@ set(hs.ax,...
     'FontSize', fontsize...
     );
 
-% right panel
+% right panel (generalization discharge)
 hax = subplot(1, 2, 2);
 [ hs ] = figf_BarMeanIndpndPlot1( dataTb.LTR, dataTb.sGSThrs, cndtnVec, randCoeff, hax );
-set(hs.bar,'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
-set(hs.bar(1), 'FaceColor',[1 1 1]);
-set(hs.bar(2), 'FaceColor',[0.5 0.5 0.5]);
+
+set(hs.bar,'FaceColor',[1 1 1],'EdgeColor',[0 0 0],'LineWidth', 0.5, 'BarWidth', barWidth);
 for i = 1:length(hs.cplt)
     set(hs.cplt{i}, 'LineWidth', 0.5, 'MarkerSize', 4);
 end
-set(hs.xlbl, 'String', 'Estim');
+set(hs.xlbl, 'String', 'Laser');
 set(hs.ylbl, 'String', 'Intensity (µA)');
-set(hs.ttl, 'String', 'Threshold for HPC');
+set(hs.ttl, 'String', 'Threshold for Ctx');
+
+hax = gca;
+yl = get(hax, 'YLim');
+hptch = patch([1.6 2.4 2.4 1.6],[yl(1) yl(1) yl(2) yl(2)],'b');
+set(hptch,'FaceAlpha',0.2,'edgecolor','none');
 
 set(hs.ax,...
+    'YLim', yl,...
     'XLim', [0.5 2.5],...
     'XTick', [1 2],...
     'XTickLabel', {'Off', 'On'},...
