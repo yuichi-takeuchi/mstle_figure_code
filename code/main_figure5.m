@@ -7,6 +7,9 @@ clear; clc
 %%
 addpath(genpath('helper'))
 addpath(genpath('lib'))
+%% panel G
+%%
+[pG_sBasicStats, pG_sStatsTest, pG_sBasicStats_pa, pG_sStatsTest_pa, pG_No] = figure5g();
 %% panel H
 %%
 [pH_sBasicStats, pH_sStatsTest, pH_sBasicStats_pa, pH_sStatsTest_pa, pH_No] = figure5h();
@@ -16,6 +19,3 @@ addpath(genpath('lib'))
 %% panel J
 %%
 [pJ_sBasicStats, pJ_sStatsTest, pJ_sBasicStats_pa, pJ_sStatsTest_pa, pJ_No] = figure5j();
-%% panel K
-%%
-[pK_sBasicStats, pK_sStatsTest, pK_sBasicStats_pa, pK_sStatsTest_pa, pK_No] = figure5k();
