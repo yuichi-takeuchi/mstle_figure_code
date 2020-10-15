@@ -9,7 +9,7 @@ addpath(genpath('helper'))
 addpath(genpath('lib'))
 %% metainfo
 %%
-ratId = [80 127 99 128 129 100 130];
+ratId = [80 99 100 127 128 129 130];
 %% figure preparation
 %%
 for i = 1:length(ratId)
