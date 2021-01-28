@@ -41,4 +41,4 @@ This project is licensed under the MIT License.
 
 
 ## References
-- Takeuchi Y, Harangozó M, Pedraza L, Földi T, Kozák G, Li Q, Berényi A, Closed-loop stimulation of the medial septum terminates epileptic seizures. Brain (Oxford), in press.
+- Takeuchi Y, Harangozó M, Pedraza L, Földi T, Kozák G, Li Q, Berényi A, Closed-loop stimulation of the medial septum terminates epileptic seizures. Brain, awaa450. 27 Jan 2021. DOI: https://doi.org/10.1093/brain/awaa450
