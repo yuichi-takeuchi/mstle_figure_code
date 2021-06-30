@@ -1,5 +1,5 @@
 # mstle_figure_code
-This repository includes raw data with MATLAB codes to regenerate main and supplementary figures of the article: Takeuchi Y et al., Closed-loop stimulation of the medial septum terminates epileptic seizures. Brain (oxford), in press.
+This repository includes raw data with MATLAB codes to regenerate main and supplementary figures of the article: Takeuchi Y et al., Closed-loop stimulation of the medial septum terminates epileptic seizures. Brain 144 (3): 885–908. 27 Jan 2021.
 
 ## Getting Started
 
@@ -39,6 +39,5 @@ This project is licensed under the MIT License.
 ## Acknowledgments
 - [Berényi lab](http://www.berenyilab.com/)
 
-
 ## References
-- Takeuchi Y, Harangozó M, Pedraza L, Földi T, Kozák G, Li Q, Berényi A, Closed-loop stimulation of the medial septum terminates epileptic seizures. Brain, awaa450. 27 Jan 2021. DOI: https://doi.org/10.1093/brain/awaa450
+- Takeuchi Y, Harangozó M, Pedraza L, Földi T, Kozák G, Li Q, Berényi A, Closed-loop stimulation of the medial septum terminates epileptic seizures. Brain 144 (3): 885–908. 27 Jan 2021. DOI: https://doi.org/10.1093/brain/awaa450
